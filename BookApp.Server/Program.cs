@@ -1,3 +1,4 @@
+using BookApp.DAL.DependencyInjection;
 
 namespace BookApp.Server
 {
@@ -7,18 +8,19 @@ namespace BookApp.Server
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
 
             builder.Services.AddControllers();
-            // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
+
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+            builder.Services.AddDAL(connectionString);
 
             var app = builder.Build();
 
             app.UseDefaultFiles();
             app.MapStaticAssets();
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.MapOpenApi();
