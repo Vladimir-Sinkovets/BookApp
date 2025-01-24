@@ -19,10 +19,10 @@ namespace BookApp.DAL.Repositories
             _set.Add(entity);
         }
 
-        public T Get(Expression<Func<T, bool>> expression)
+        public T? FirstOrDefault(Expression<Func<T, bool>> expression)
         {
             return GetAll()
-                .First(expression);
+                .FirstOrDefault(expression);
         }
 
         public IQueryable<T> GetAll()

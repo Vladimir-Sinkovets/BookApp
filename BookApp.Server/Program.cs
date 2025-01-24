@@ -1,3 +1,4 @@
+using BookApp.BLL.DependencyInjection;
 using BookApp.DAL.DependencyInjection;
 
 namespace BookApp.Server
@@ -15,6 +16,7 @@ namespace BookApp.Server
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
             builder.Services.AddDAL(connectionString);
+            builder.Services.AddBLL();
 
             var app = builder.Build();
 

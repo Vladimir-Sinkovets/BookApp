@@ -8,7 +8,8 @@ namespace BookApp.DAL
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
-            
+            //Database.EnsureDeleted();   
+            //Database.EnsureCreated();
         }
         public DbSet<UserEntry> Users { get; set; }
     }

@@ -1,6 +1,6 @@
 ﻿using BookApp.BLL.Services.AuthServices;
 using BookApp.BLL.Services.CryptoServices;
-using BookApp.BLL.Services.TokenGeneratorServices;
+using BookApp.BLL.Services.TokenServices;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BookApp.BLL.DependencyInjection
@@ -10,7 +10,7 @@ namespace BookApp.BLL.DependencyInjection
         public static IServiceCollection AddBLL(this IServiceCollection services)
         {
             return services.AddTransient<IAuthService, AuthService>()
-                .AddTransient<ITokenGeneratorService, TokenGeneratorService>()
+                .AddTransient<ITokenService, TokenService>()
                 .AddTransient<ICryptoService, CryptoService>();
         }
     }

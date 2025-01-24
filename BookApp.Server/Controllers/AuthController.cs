@@ -1,31 +1,47 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BookApp.BLL.Services.AuthServices;
+using BookApp.Server.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BookApp.Server.Controllers
 {
     [ApiController]
     [Route("/api/[controller]")]
-    public class AuthController : Controller
+    public class AuthController(IAuthService authService) : Controller
     {
         [HttpPost]
         [Route("register")]
-        public IActionResult Register()
+        public async Task<IActionResult> Register([FromBody] RegisterUser model)
         {
+            var response = await authService.RegisterUserAsync(new()
+            {
+                Email = model.Email,
+                Password = model.Password,
+                Name = model.Name,
+            });
 
-            return Ok();
+            return Ok(response);
         }
 
         [HttpPost]
         [Route("login")]
-        public IActionResult Login()
+        public IActionResult Login(LoginUser model)
         {
-            return Ok();
+            var response = authService.LoginUser(new()
+            {
+                Email = model.Email,
+                Password = model.Password,
+            });
+
+            return Ok(response);
         }
 
         [HttpPost]
         [Route("refresh")]
-        public IActionResult Refresh()
+        public IActionResult Refresh(string token)
         {
-            return Ok();
+            var response = authService.RefreshToken(token);
+
+            return Ok(response);
         }
     }
 }
