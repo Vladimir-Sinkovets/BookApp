@@ -1,5 +1,4 @@
-﻿
-using BookApp.BLL.Services.AuthServices.Models;
+﻿using BookApp.BLL.Services.Models;
 
 namespace BookApp.BLL.Services.AuthServices
 {

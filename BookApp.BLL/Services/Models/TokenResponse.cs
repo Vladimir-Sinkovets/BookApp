@@ -1,4 +1,4 @@
-﻿namespace BookApp.BLL.Services.AuthServices.Models
+﻿namespace BookApp.BLL.Services.Models
 {
     public class TokenResponse
     {

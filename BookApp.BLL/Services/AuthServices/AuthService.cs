@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
-using BookApp.BLL.Services.AuthServices.Models;
 using BookApp.BLL.Services.CryptoServices;
+using BookApp.BLL.Services.Models;
 using BookApp.BLL.Services.TokenServices;
 using BookApp.DAL.Emuns;
 using BookApp.DAL.Models;
