@@ -4,7 +4,7 @@ namespace BookApp.DAL.Repositories
 {
     public interface IUnitOfWork
     {
-        IRepository<User> UsersRepository { get; }
+        IRepository<UserEntry> UsersRepository { get; }
         void SaveChanges();
         Task SaveChangesAsync(CancellationToken cancellationToken);
     }

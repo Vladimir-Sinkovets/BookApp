@@ -4,8 +4,8 @@ namespace BookApp.DAL.Repositories
 {
     public class UnitOfWork(ApplicationDbContext dbContext) : IUnitOfWork
     {
-        private readonly IRepository<User> _userRepository;
-        public IRepository<User> UsersRepository => _userRepository ?? new GenericRepository<User>(dbContext);
+        private readonly IRepository<UserEntry> _userRepository;
+        public IRepository<UserEntry> UsersRepository => _userRepository ?? new GenericRepository<UserEntry>(dbContext);
 
         public void SaveChanges() => dbContext.SaveChanges();
 

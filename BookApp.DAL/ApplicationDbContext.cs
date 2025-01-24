@@ -10,6 +10,6 @@ namespace BookApp.DAL
         {
             
         }
-        public DbSet<User> Users { get; set; }
+        public DbSet<UserEntry> Users { get; set; }
     }
 }

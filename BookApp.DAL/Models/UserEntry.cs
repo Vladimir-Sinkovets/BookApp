@@ -1,6 +1,6 @@
 ﻿namespace BookApp.DAL.Models
 {
-    public class User
+    public class UserEntry
     {
         public int Id { get; set; }
         public string Name { get; set; }
