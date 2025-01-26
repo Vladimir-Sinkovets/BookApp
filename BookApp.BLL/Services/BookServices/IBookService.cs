@@ -1,4 +1,4 @@
-﻿using BookApp.BLL.Services.Models;
+﻿using BookApp.BLL.Models;
 
 namespace BookApp.BLL.Services.BookServices
 {

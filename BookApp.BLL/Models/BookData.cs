@@ -1,4 +1,4 @@
-﻿namespace BookApp.BLL.Services.Models
+﻿namespace BookApp.BLL.Models
 {
     public class BookData
     {

@@ -1,4 +1,4 @@
-﻿using BookApp.BLL.Services.Models;
+﻿using BookApp.BLL.Models;
 using BookApp.DAL.Models;
 using BookApp.DAL.Repositories;
 using Microsoft.EntityFrameworkCore;

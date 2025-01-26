@@ -1,7 +1,6 @@
-﻿using BookApp.BLL.Services.BookServices;
-using BookApp.BLL.Services.Models;
+﻿using BookApp.BLL.Models;
+using BookApp.BLL.Services.BookServices;
 using BookApp.Server.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookApp.Server.Controllers
