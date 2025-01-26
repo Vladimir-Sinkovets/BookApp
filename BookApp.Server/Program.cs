@@ -1,5 +1,7 @@
 using BookApp.BLL.DependencyInjection;
 using BookApp.DAL.DependencyInjection;
+using BookApp.Server.Middleware;
+using Microsoft.AspNetCore.Diagnostics;
 
 namespace BookApp.Server
 {
@@ -19,6 +21,8 @@ namespace BookApp.Server
             builder.Services.AddBLL();
 
             var app = builder.Build();
+
+            app.UseMiddleware<ServerExceptionHandlerMiddleware>();
 
             app.UseDefaultFiles();
             app.MapStaticAssets();

@@ -1,4 +1,5 @@
-﻿using BookApp.BLL.Models;
+﻿using BookApp.BLL.Exceptions;
+using BookApp.BLL.Models;
 using BookApp.DAL.Models;
 using BookApp.DAL.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +18,6 @@ namespace BookApp.BLL.Services.BookServices
                 Id = book.Id,
                 Title = book.Title,
             };
-
 
             if (book.TagIds != null)
                 bookEntry.Tags = GetTags(book.TagIds);
@@ -41,7 +41,10 @@ namespace BookApp.BLL.Services.BookServices
         {
             var bookEntry = unitOfWork.BooksRepository.GetAll()
                 .Include(b => b.Tags)
-                .First(b => b.Id == id);
+                .FirstOrDefault(b => b.Id == id);
+
+            if (bookEntry == null)
+                throw new NotFoundException();
 
             return MapToBookData(bookEntry);
         }
@@ -51,6 +54,9 @@ namespace BookApp.BLL.Services.BookServices
             var bookEntry = unitOfWork.BooksRepository.GetAll()
                 .Include(b => b.Tags)
                 .First(b => b.Id == book.Id);
+
+            if (bookEntry == null)
+                throw new NotFoundException();
 
             bookEntry.Fragment = book.Fragment;
             bookEntry.Author = book.Author;
