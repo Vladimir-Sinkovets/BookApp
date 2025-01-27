@@ -22,10 +22,10 @@ namespace BookApp.Server.Middleware
             {
                 await HandleExceptionAsync(context, "Content not found", HttpStatusCode.NotFound);
             }
-            catch (Exception)
-            {
-                await HandleExceptionAsync(context, "InternalServerError", HttpStatusCode.InternalServerError);
-            }
+            //catch (Exception)
+            //{
+            //    await HandleExceptionAsync(context, "InternalServerError", HttpStatusCode.InternalServerError);
+            //}
         }
 
         private static Task HandleExceptionAsync(HttpContext context, string message, HttpStatusCode statusCode)

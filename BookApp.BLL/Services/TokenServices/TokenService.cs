@@ -10,7 +10,7 @@ namespace BookApp.BLL.Services.TokenServices
     public class TokenService(IConfiguration config) : ITokenService
     {
         private const int AccessTokenExp = 30;
-        private const int RefreshTokenExp = 0;
+        private const int RefreshTokenExp = 15000;
 
         private string Audience => config["Jwt:Audience"];
         private string Issuer => config["Jwt:Issuer"];

@@ -1,12 +1,13 @@
 ﻿using BookApp.BLL.Models;
 using BookApp.BLL.Services.BookServices;
 using BookApp.Server.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookApp.Server.Controllers
 {
     [ApiController]
-    //[Authorize]
+    [Authorize]
     [Route("/api/[controller]")]
     public class BookController(IBookService bookService) : Controller
     {

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BookApp.Server.Controllers
 {
     [ApiController]
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     public class TagController(ITagService tagService) : Controller
     {
