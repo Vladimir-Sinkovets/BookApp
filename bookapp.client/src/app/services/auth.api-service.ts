@@ -36,14 +36,39 @@ export class AuthApiService {
         }),
         tap(response => {
           if (response instanceof HttpResponse) {
-            localStorage.setItem(this.accessTokenKey, response.body?.accessToken!);
-            localStorage.setItem(this.refreshTokenKey, response.body?.refreshToken!);
+            this.SetTokens(response);
           }
         })
       );
   }
 
-  login(data: { email: string, password: string }): Observable<HttpResponse<TokenResponse>> {
-    return this.http.post<TokenResponse>(`${this.domain}/api/auth/login`, data, { observe: 'response' });
+  login(data: { email: string, password: string })
+    : Observable<HttpResponse<TokenResponse> | { status: number, message: string }> {
+    return this.http.post<TokenResponse>(`${this.domain}/api/auth/login`, data, { observe: 'response' })
+      .pipe(
+        catchError(error => {
+          if (error.status == 404) {
+            return of({ status: error.status, message: 'User does not exist' });
+          }
+          else if (error.status == 400) {
+            return of({ status: error.status, message: 'Wrong data' });
+          }
+          else if (error.status == 500) {
+            return of({ status: error.status, message: 'Server error' });
+          }
+
+          throw error;
+        }),
+        tap(response => {
+          if (response instanceof HttpResponse) {
+            this.SetTokens(response);
+          }
+        })
+      );
+  }
+
+  private SetTokens(response: HttpResponse<TokenResponse>) {
+    localStorage.setItem(this.accessTokenKey, response.body?.accessToken!);
+    localStorage.setItem(this.refreshTokenKey, response.body?.refreshToken!);
   }
 }

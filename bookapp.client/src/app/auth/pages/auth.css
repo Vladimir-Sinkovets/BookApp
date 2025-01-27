@@ -39,3 +39,8 @@ auth-form input[type="submit"]:hover {
 auth-form input[type="submit"]:active {
   background-color: #9f9f9f;
 }
+
+.errorMessage{
+    color: red;
+    font-weight: bold;
+}
