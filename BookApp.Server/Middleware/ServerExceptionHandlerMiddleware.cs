@@ -22,6 +22,14 @@ namespace BookApp.Server.Middleware
             {
                 await HandleExceptionAsync(context, "Content not found", HttpStatusCode.NotFound);
             }
+            catch (BadRequestException)
+            {
+                await HandleExceptionAsync(context, "Bad request", HttpStatusCode.BadRequest);
+            }
+            catch (TokenException)
+            {
+                await HandleExceptionAsync(context, "Bad token", HttpStatusCode.Unauthorized);
+            }
             //catch (Exception)
             //{
             //    await HandleExceptionAsync(context, "InternalServerError", HttpStatusCode.InternalServerError);

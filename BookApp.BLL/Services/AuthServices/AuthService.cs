@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using BookApp.BLL.Exceptions;
 using BookApp.BLL.Models;
 using BookApp.BLL.Services.CryptoServices;
 using BookApp.BLL.Services.TokenServices;
@@ -18,10 +19,10 @@ namespace BookApp.BLL.Services.AuthServices
             var user = unitOfWork.UsersRepository.FirstOrDefault(u => u.Email == model.Email);
                 
             if (user == null)
-                throw new Exception();
+                throw new NotFoundException();
 
             if (!cryptoService.VerifyPassword(model.Password, user.PasswordHash))
-                throw new Exception(); // toDo: add concrete exception 
+                throw new BadRequestException();
 
             return GenerateTokens(user);
         }
@@ -31,14 +32,14 @@ namespace BookApp.BLL.Services.AuthServices
             var principal = tokenService.ValidateRefreshToken(token);
 
             if (principal == null)
-                throw new Exception();
+                throw new TokenException();
 
             var userId = int.Parse(principal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
 
             var user = unitOfWork.UsersRepository.FirstOrDefault(u =>  userId == u.Id);
 
             if (user == null )
-                throw new Exception();
+                throw new TokenException();
 
             return GenerateTokens(user);
         }
@@ -46,7 +47,7 @@ namespace BookApp.BLL.Services.AuthServices
         public async Task<TokenResponse> RegisterUserAsync(UserData model)
         {
             if (unitOfWork.UsersRepository.FirstOrDefault(u => u.Email == model.Email) != null)
-                throw new Exception(); // toDo: add concrete exception 
+                throw new ContentAlreadyExistException();
 
             var user = new UserEntry()
             {

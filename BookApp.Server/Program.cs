@@ -56,6 +56,8 @@ namespace BookApp.Server
             app.UseDefaultFiles();
             app.MapStaticAssets();
 
+            app.UseCors("AllowAllOrigins");
+
             if (app.Environment.IsDevelopment())
             {
                 app.MapOpenApi();
