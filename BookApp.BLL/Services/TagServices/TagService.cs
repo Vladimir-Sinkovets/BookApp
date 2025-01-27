@@ -34,6 +34,9 @@ namespace BookApp.BLL.Services.TagServices
 
         public async Task<TagData> CreateTagAsync(TagData tag)
         {
+            if (unitOfWork.TagsRepository.FirstOrDefault(t => t.Name == tag.Name) != null)
+                throw new ContentAlreadyExistException();
+
             var tagEntry = new TagEntry()
             {
                 Id = tag.Id,
@@ -44,7 +47,11 @@ namespace BookApp.BLL.Services.TagServices
 
             await unitOfWork.SaveChangesAsync(new CancellationToken());
 
-            return tag;
+            return new TagData()
+            {
+                Id = tagEntry.Id,
+                Name = tagEntry.Name,
+            };
         }
 
         public async Task DeleteTagAsync(int id)

@@ -14,6 +14,10 @@ namespace BookApp.Server.Middleware
             {
                 await _next(context);
             }
+            catch (ContentAlreadyExistException)
+            {
+                await HandleExceptionAsync(context, "Content already exist", HttpStatusCode.Conflict);
+            }
             catch (NotFoundException)
             {
                 await HandleExceptionAsync(context, "Content not found", HttpStatusCode.NotFound);
