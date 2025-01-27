@@ -19,12 +19,15 @@ namespace BookApp.BLL.Services.BookServices
                 Title = book.Title,
             };
 
-            if (book.TagIds != null)
-                bookEntry.Tags = GetTags(book.TagIds);
-
             unitOfWork.BooksRepository.Add(bookEntry);
 
             await unitOfWork.SaveChangesAsync(new CancellationToken());
+
+            if (book.TagIds != null)
+                bookEntry.Tags = await GetTagsAsync(book.TagIds);
+
+            await unitOfWork.SaveChangesAsync(new CancellationToken());
+
             return MapToBookData(bookEntry);
         }
 
@@ -63,7 +66,7 @@ namespace BookApp.BLL.Services.BookServices
             bookEntry.Description = book.Description;
             
             bookEntry.Tags.Clear();
-            bookEntry.Tags = GetTags(book.TagIds);
+            bookEntry.Tags = await GetTagsAsync(book.TagIds);
 
             await unitOfWork.SaveChangesAsync(new CancellationToken());
 
@@ -90,19 +93,11 @@ namespace BookApp.BLL.Services.BookServices
             };
         }
 
-        private List<TagEntry> GetTags(List<int> tagIds)
+        private async Task<List<TagEntry>> GetTagsAsync(List<int> tagIds)
         {
-            var tags = new List<TagEntry>();
-
-            foreach (int id in tagIds)
-            {
-                var tag = unitOfWork.TagsRepository.FirstOrDefault(t => t.Id == id);
-
-                if (tag != null)
-                    tags.Add(tag);
-            }
-
-            return tags;
+            return await unitOfWork.TagsRepository.GetAll()
+                .Where(t => tagIds.Contains(t.Id))
+                .ToListAsync();
         }
     }
 }
