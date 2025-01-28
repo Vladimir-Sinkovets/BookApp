@@ -22,9 +22,6 @@ export class BookApiService {
             message: 'success',
             data: response.body ?? [],
           };
-        }),
-        tap(response => {
-          console.log(response.data.length);
         })
       )
   }
