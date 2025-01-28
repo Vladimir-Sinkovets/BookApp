@@ -12,7 +12,7 @@ export interface TokenResponse {
   providedIn: 'root',
 })
 export class AuthApiService {
-  private domain = 'http://localhost:5033';
+  private domain = 'https://localhost:7085';
 
   private accessTokenKey = "accessToken";
   private refreshTokenKey = "refreshToken";
@@ -73,6 +73,10 @@ export class AuthApiService {
           }
         })
       );
+  }
+
+  getAccessToken(): string {
+    return localStorage.getItem(this.accessTokenKey) ?? '';
   }
 
   private SetTokens(response: HttpResponse<TokenResponse>) {
