@@ -1,7 +1,7 @@
 import { HttpClient, HttpResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { catchError, map, Observable, of, tap } from "rxjs";
-import { ApiResponse } from "./api-response.type";
+import { ApiResponse } from "../../types/api-response.type";
 
 export interface TokenResponse {
   accessToken: string,
