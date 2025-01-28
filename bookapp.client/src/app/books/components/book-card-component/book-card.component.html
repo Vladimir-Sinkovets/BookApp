@@ -1,0 +1,10 @@
+<div class="card">
+  <h3>{{title}}</h3>
+  <p>{{author}}</p>
+  <p>
+    @for (tag of tags; track tag)
+    {
+      <span>#{{tag + ' '}}</span>
+    }
+  </p>
+</div>
