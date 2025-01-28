@@ -1,8 +1,9 @@
 import { HttpClient, HttpResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { catchError, map, Observable, of, tap } from "rxjs";
+import { ApiResponse } from "./api-response.type";
 
-interface TokenResponse {
+export interface TokenResponse {
   accessToken: string,
   refreshToken: string,
 }
@@ -18,50 +19,57 @@ export class AuthApiService {
 
   constructor(private http: HttpClient) { }
 
-  register(data: { email: string, name: string, password: string })
-    : Observable<HttpResponse<TokenResponse> | { status: number, message: string }> {
+  register(data: { email: string, name: string, password: string }): Observable<ApiResponse<TokenResponse>> {
     return this.http.post<TokenResponse>(`${this.domain}/api/auth/register`, data, { observe: 'response' })
       .pipe(
-        catchError((error) => {
-          if (error.status == 400) {
-            return of({ status: error.status, message: 'Wrong data' })
-          }
-          else if (error.status == 409) {
-            return of({ status: error.status, message: 'User already exist' })
-          }
-          else if (error.status == 500) {
-            return of({ status: error.status, message: 'Server error' })
-          }
-          throw error;
-        }),
         tap(response => {
           if (response instanceof HttpResponse) {
             this.SetTokens(response);
+          }
+        }),
+        catchError((error) => {
+          if (error.status == 400) {
+            return of({ isSucceeded: false, message: 'Wrong data', data: undefined });
+          } else if (error.status == 409) {
+            return of({ isSucceeded: false, message: 'User already exist', data: undefined });
+          } else if (error.status == 500) {
+            return of({ isSucceeded: false, message: 'Server error', data: undefined });
+          }
+          return of({ isSucceeded: false, message: 'Unknown error', data: undefined });
+        }),
+        map(response => {
+          if (response instanceof HttpResponse) {
+            return { isSucceeded: true, message: 'Success', data: response.body ?? undefined };
+          } else {
+            return response;
           }
         })
       );
   }
 
-  login(data: { email: string, password: string })
-    : Observable<HttpResponse<TokenResponse> | { status: number, message: string }> {
+  login(data: { email: string, password: string }) : Observable<ApiResponse<TokenResponse>> {
     return this.http.post<TokenResponse>(`${this.domain}/api/auth/login`, data, { observe: 'response' })
       .pipe(
-        catchError(error => {
-          if (error.status == 404) {
-            return of({ status: error.status, message: 'User does not exist' });
-          }
-          else if (error.status == 400) {
-            return of({ status: error.status, message: 'Wrong data' });
-          }
-          else if (error.status == 500) {
-            return of({ status: error.status, message: 'Server error' });
-          }
-
-          throw error;
-        }),
         tap(response => {
           if (response instanceof HttpResponse) {
             this.SetTokens(response);
+          }
+        }),
+        catchError((error) => {
+          if (error.status == 400) {
+            return of({ isSucceeded: false, message: 'Wrong data', data: undefined });
+          } else if (error.status == 404) {
+            return of({ isSucceeded: false, message: 'User does not exist', data: undefined });
+          } else if (error.status == 500) {
+            return of({ isSucceeded: false, message: 'Server error', data: undefined });
+          }
+          return of({ isSucceeded: false, message: 'Unknown error', data: undefined });
+        }),
+        map(response => {
+          if (response instanceof HttpResponse) {
+            return { isSucceeded: true, message: 'Success', data: response.body ?? undefined };
+          } else {
+            return response;
           }
         })
       );

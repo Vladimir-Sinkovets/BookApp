@@ -1,7 +1,6 @@
-import { HttpResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthApiService } from '../../services/auth.api-service';
 
 @Component({
@@ -12,8 +11,11 @@ import { AuthApiService } from '../../services/auth.api-service';
   imports: [ReactiveFormsModule]
 })
 export class LoginFormComponent {
+  returnUrl: string;
   errorMessage = '';
-  constructor(private auth: AuthApiService, private router: Router) { }
+  constructor(private auth: AuthApiService, private router: Router, private route: ActivatedRoute) {
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+}
   form = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
@@ -26,8 +28,8 @@ export class LoginFormComponent {
         password: this.form.value.password!,
       })
         .subscribe(response => {
-          if (response instanceof HttpResponse) {
-            this.router.navigate(['/']);
+          if (response.isSucceeded) {
+            this.router.navigateByUrl(this.returnUrl);
           }
           else {
             this.errorMessage = response.message;

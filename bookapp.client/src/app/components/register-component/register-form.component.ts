@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { FormGroup, FormControl, Validators, ReactiveFormsModule } from "@angular/forms";
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthApiService } from '../../services/auth.api-service';
-import { HttpResponse } from '@angular/common/http';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register-form',
@@ -12,7 +11,10 @@ import { Router } from '@angular/router';
   imports: [ReactiveFormsModule]
 })
 export class RegisterFormComponent {
-  constructor(private auth: AuthApiService, private router: Router) { }
+  returnUrl: string;
+  constructor(private auth: AuthApiService, private router: Router, private route: ActivatedRoute) {
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+  }
 
   errorMessage: string = '';
 
@@ -36,8 +38,8 @@ export class RegisterFormComponent {
         password: this.form.value.password!,
       })
         .subscribe(response => {
-          if (response instanceof HttpResponse) {
-            this.router.navigate(['/']);
+          if (response.isSucceeded) {
+            this.router.navigateByUrl(this.returnUrl);
           }
           else {
             this.errorMessage = response.message;
