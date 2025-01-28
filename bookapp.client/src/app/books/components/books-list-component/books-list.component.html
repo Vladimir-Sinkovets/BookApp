@@ -1,6 +1,8 @@
 <div class="card-container">
     @for (book of books; track book.id)
     {
-      <app-book-card [title]="book.title" [author]="book.author" [tags]="book.tags"></app-book-card>
+      <app-book-card [title]="book.title" [author]="book.author" [tags]="book.tags"
+                     (tagClickEvent)="tagClickEventHandler($event)"
+                     (cardClickEvent)="cardClickEventHandler($event)"/>
     }
 </div>

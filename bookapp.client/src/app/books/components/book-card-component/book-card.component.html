@@ -1,10 +1,14 @@
 <div class="card">
-  <h3>{{title}}</h3>
-  <p>{{author}}</p>
+  <div (click)="cardClickHandler()">
+    <h3>
+      {{title}}
+    </h3>
+    <p>{{author}}</p>
+  </div>
   <p>
     @for (tag of tags; track tag)
     {
-      <span>#{{tag + ' '}}</span>
+    <button class="tag-button" (click)="tagClickHandler(tag)">{{tag}}</button>&nbsp;
     }
   </p>
 </div>

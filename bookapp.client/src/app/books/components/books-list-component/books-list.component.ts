@@ -24,4 +24,12 @@ export class BooksListComponent implements OnInit {
           this.errorMessage = response.message;
       });
   }
+
+  tagClickEventHandler(tag: string) {
+    console.log(tag);
+  }
+
+  cardClickEventHandler(id: number) {
+    console.log(id);
+  }
 }

@@ -1,9 +1,18 @@
 .card {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
-  padding: 16px;
+  padding: 5px 0px 0px 20px;
   background-color: #fff;
+  height: 100%;
 }
 .card h3, .card p {
   text-align: left;
+}
+
+.tag-button{
+    border-radius: 9px;
+    background-color: azure;
+}
+.tag-button:hover {
+  background-color: cadetblue;
 }
