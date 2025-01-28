@@ -20,7 +20,7 @@ namespace BookApp.Server.Controllers
                 Description = model.Description,
                 Author = model.Author,
                 Fragment = model.Fragment,
-                TagIds = model.TagIds,
+                Tags = model.Tags,
                 Title = model.Title,
             });
 
@@ -54,7 +54,7 @@ namespace BookApp.Server.Controllers
                 Fragment = model.Fragment,
                 Id = model.Id,
                 Title = model.Title,
-                TagIds = model.TagIds ?? [],
+                Tags = model.Tags ?? [],
             });
 
             return Ok(book);
