@@ -1,0 +1,29 @@
+<div>
+  @if(page - 3 > 0) {
+  <button class="pagination-button" (click)="onButtonClickHandler(1)">1</button>
+  }
+  @if(page - 4 > 0) {
+  <span>...</span>
+  }
+  @if(page - 2 > 0) {
+  <button class="pagination-button"  (click)="onButtonClickHandler(page - 2)">{{page - 2}}</button>
+  }
+  @if(page - 1 > 0) {
+  <button class="pagination-button"  (click)="onButtonClickHandler(page - 1)">{{page - 1}}</button>
+  }
+
+  <button class="pagination-button current-page-button"  (click)="onButtonClickHandler(page)">{{page}}</button>
+
+  @if(page + 1 <= lastPage) {
+  <button class="pagination-button"  (click)="onButtonClickHandler(page + 1)">{{page + 1}}</button>
+  }
+  @if(page + 2 <= lastPage) {
+  <button class="pagination-button"  (click)="onButtonClickHandler(page + 2)">{{page + 2}}</button>
+  }
+  @if(page + 4 <= lastPage) {
+  <span>...</span>
+  }
+  @if(page + 3 <= lastPage) {
+  <button class="pagination-button"  (click)="onButtonClickHandler(lastPage)">{{lastPage}}</button>
+  }
+</div>

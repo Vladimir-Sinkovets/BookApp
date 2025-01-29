@@ -31,13 +31,21 @@ namespace BookApp.BLL.Services.BookServices
             return MapToBookData(bookEntry);
         }
 
-        public IEnumerable<BookData> GetPaginatedBooks(int page, int itemsPerPage)
+        public PaginatedData<IEnumerable<BookData>> GetPaginatedBooks(int page, int itemsPerPage)
         {
-            return unitOfWork.BooksRepository.GetAll()
+            var booksCount = unitOfWork.BooksRepository.GetAll().Count();
+
+            var books = unitOfWork.BooksRepository.GetAll()
                 .Include(b => b.Tags)
                 .Skip(itemsPerPage * (page - 1))
                 .Take(itemsPerPage)
                 .Select(b => MapToBookData(b));
+
+            return new PaginatedData<IEnumerable<BookData>>
+            {
+                Items = books,
+                LastPage = (int)Math.Ceiling(booksCount / (decimal)itemsPerPage),
+            };
         }
 
         public BookData GetBook(int id)

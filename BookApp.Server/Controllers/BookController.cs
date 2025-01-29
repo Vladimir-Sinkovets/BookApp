@@ -38,9 +38,9 @@ namespace BookApp.Server.Controllers
         [Route("all")]
         public async Task<IActionResult> All(int page, int itemsPerPage)
         {
-            var books = bookService.GetPaginatedBooks(page, itemsPerPage);
+            var data = bookService.GetPaginatedBooks(page, itemsPerPage);
 
-            return Ok(books);
+            return Ok(data);
         }
 
         [HttpPut]

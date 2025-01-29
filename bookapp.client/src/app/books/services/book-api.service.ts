@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { from, map, Observable, of, tap } from "rxjs";
+import { map, Observable, of, tap } from "rxjs";
 import { ApiResponse } from "../../types/api-response.type";
 import { Book } from "../types/book.type";
 import { Injectable } from "@angular/core";
@@ -13,14 +13,17 @@ export class BookApiService {
 
   }
 
-  getPaginatedBooks(page: number, booksPerPage: number): Observable<ApiResponse<Book[]>> {
-    return this.http.get<Book[]>(`${this.domain}/api/book/all?page=${page}&itemsPerPage=${booksPerPage}`)
+  getPaginatedBooks(page: number, booksPerPage: number): Observable<ApiResponse<{ books: Book[], lastPage: number }>> {
+    return this.http.get<{ items: Book[], lastPage: number }>(`${this.domain}/api/book/all?page=${page}&itemsPerPage=${booksPerPage}`)
       .pipe(
         map(response => {
           return {
             isSucceeded: true,
             message: 'success',
-            data: response ?? [],
+            data: {
+              books: response.items,
+              lastPage: response.lastPage,
+            },
           };
         })
       )

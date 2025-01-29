@@ -10,14 +10,14 @@ import { ActivatedRoute } from "@angular/router";
 })
 export class BooksComponent implements OnInit {
   page: number = 1;
-  booksPerPage: number = 20;
+  booksPerPage: number = 1;
 
   constructor(private route: ActivatedRoute) {
   }
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.page = params['page'] ?? 1;
-      this.booksPerPage = params['booksperpage'] ?? 20;
+      this.booksPerPage = params['booksperpage'] ?? 16;
     });
   }
 }
