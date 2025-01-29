@@ -1,7 +1,8 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { BookApiService } from "../../services/book-api.service";
 import { Book } from "../../types/book.type";
 import { BooksCardComponent } from "../book-card-component/book-card.component";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-books-list',
@@ -11,12 +12,15 @@ import { BooksCardComponent } from "../book-card-component/book-card.component";
   imports: [BooksCardComponent],
 })
 export class BooksListComponent implements OnInit {
+  @Input() page: number = 1;
+  @Input() booksPerPage: number = 20;
+
   errorMessage: string = '';
   books: Book[] = [];
-  constructor(private bookApi: BookApiService) { }
+  constructor(private bookApi: BookApiService, private router: Router) { }
 
   ngOnInit(): void {
-    this.bookApi.getPaginatedBooks(1, 10)
+    this.bookApi.getPaginatedBooks(this.page, this.booksPerPage)
       .subscribe(response => {
         if (response.isSucceeded)
           this.books = response.data!;
@@ -30,6 +34,7 @@ export class BooksListComponent implements OnInit {
   }
 
   cardClickEventHandler(id: number) {
+    this.router.navigateByUrl(`/book?id=${id}`);
     console.log(id);
   }
 }

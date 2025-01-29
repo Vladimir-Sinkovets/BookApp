@@ -14,15 +14,27 @@ export class BookApiService {
   }
 
   getPaginatedBooks(page: number, booksPerPage: number): Observable<ApiResponse<Book[]>> {
-    return this.http.get<Book[]>(`${this.domain}/api/book/all?page=${page}&itemsPerPage=${booksPerPage}`, { observe: 'response' })
+    return this.http.get<Book[]>(`${this.domain}/api/book/all?page=${page}&itemsPerPage=${booksPerPage}`)
       .pipe(
         map(response => {
           return {
             isSucceeded: true,
             message: 'success',
-            data: response.body ?? [],
+            data: response ?? [],
           };
         })
+      )
+  }
+
+  getBook(id: number): Observable<ApiResponse<Book>> {
+    return this.http.get<Book>(`${this.domain}/api/book/get?id=${id}`)
+      .pipe(
+        map(response => {
+          return {
+            isSucceeded: true,
+            message: 'success',
+            data: response ?? null,
+        }})
       )
   }
 }

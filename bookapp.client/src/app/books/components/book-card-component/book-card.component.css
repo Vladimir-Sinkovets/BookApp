@@ -16,3 +16,7 @@
 .tag-button:hover {
   background-color: cadetblue;
 }
+
+.clickable-card:hover{
+    background-color: whitesmoke;
+}

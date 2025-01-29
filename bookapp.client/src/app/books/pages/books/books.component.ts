@@ -1,5 +1,6 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { BooksListComponent } from "../../components/books-list-component/books-list.component";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: 'app-books-page',
@@ -7,6 +8,16 @@ import { BooksListComponent } from "../../components/books-list-component/books-
   standalone: true,
   imports: [BooksListComponent]
 })
-export class BooksComponent {
+export class BooksComponent implements OnInit {
+  page: number = 1;
+  booksPerPage: number = 20;
 
+  constructor(private route: ActivatedRoute) {
+  }
+  ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      this.page = params['page'] ?? 1;
+      this.booksPerPage = params['booksperpage'] ?? 20;
+    });
+  }
 }

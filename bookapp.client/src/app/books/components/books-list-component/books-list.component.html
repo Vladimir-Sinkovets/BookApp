@@ -1,8 +1,11 @@
 <div class="card-container">
     @for (book of books; track book.id)
     {
-      <app-book-card [title]="book.title" [author]="book.author" [tags]="book.tags"
+      <app-book-card [title]="book.title" [author]="book.author" [tags]="book.tags" [id]="book.id"
                      (tagClickEvent)="tagClickEventHandler($event)"
                      (cardClickEvent)="cardClickEventHandler($event)"/>
     }
+</div>
+<div>
+
 </div>
