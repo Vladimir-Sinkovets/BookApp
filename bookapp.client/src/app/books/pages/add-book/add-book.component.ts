@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { TagButtonComponent } from "../../components/tag-component/tag-button.component";
 import { TagApiService } from "../../services/tag-api.service";
+import { BookApiService } from "../../services/book-api.service";
 
 @Component({
   selector: 'app-add-book-page',
@@ -23,7 +24,7 @@ export class AddBookComponent implements OnInit {
     selectedTag: new FormControl('', Validators.required),
   })
 
-  constructor(private tagApi: TagApiService) { }
+  constructor(private tagApi: TagApiService, private bookApi: BookApiService) { }
 
   ngOnInit(): void {
     this.tagApi.getTags()
@@ -33,7 +34,7 @@ export class AddBookComponent implements OnInit {
   }
 
   handleSubmit() {
-    console.log(this.form.value);
+
   }
 
   addTagHandler() {

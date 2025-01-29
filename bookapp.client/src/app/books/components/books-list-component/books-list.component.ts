@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { BookApiService } from "../../services/book-api.service";
-import { Book } from "../../types/book.type";
+import { IBook } from "../../types/book.interface";
 import { BooksCardComponent } from "../book-card-component/book-card.component";
 import { Router } from "@angular/router";
 import { PaginationComponent } from "../pagination-component/pagination.component";
@@ -18,7 +18,7 @@ export class BooksListComponent implements OnInit {
   @Input() booksPerPage: number = 20;
 
   errorMessage: string = '';
-  books: Book[] = [];
+  books: IBook[] = [];
   constructor(private bookApi: BookApiService, private router: Router) { }
 
   ngOnInit(): void {

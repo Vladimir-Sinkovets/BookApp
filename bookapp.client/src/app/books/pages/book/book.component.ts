@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { BookApiService } from "../../services/book-api.service";
-import { Book } from "../../types/book.type";
+import { IBook } from "../../types/book.interface";
 import { TagButtonComponent } from "../../components/tag-component/tag-button.component";
 
 @Component({
@@ -15,7 +15,7 @@ export class BookComponent implements OnInit {
   id: number = 0;
   errorMessage: string = '';
 
-  book?: Book = undefined;
+  book?: IBook = undefined;
 
   constructor(private route: ActivatedRoute, private router: Router, private bookApi: BookApiService) {
   }
