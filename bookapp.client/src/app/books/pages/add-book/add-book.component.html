@@ -1,0 +1,44 @@
+<form class="app-form wide-form" [formGroup]="form" (ngSubmit)="handleSubmit()">
+  <div class="input-container">
+    <label class="form-label">Title: </label>
+    <input class="form-input wide-input" type="text" formControlName="title" />
+  </div>
+
+  <div class="input-container">
+    <label class="form-label">Author: </label>
+    <input class="form-input wide-input" type="text" formControlName="author" />
+  </div>
+
+  <div class="input-container">
+    <label class="form-label">Fragment: </label>
+    <textarea class="form-textarea" formControlName="fragment"></textarea>
+  </div>
+
+  <div class="input-container">
+    <label class="form-label">Description: </label>
+    <textarea class="form-textarea" formControlName="description"></textarea>
+  </div>
+
+  <div class="input-container">
+    <label class="form-label">Tags: </label>
+    @for(tag of addedTags; track tag){
+    <app-tag-button [tag]="tag" (clickEvent)="tagClickHandler($event)" />&nbsp;
+    }
+  </div>
+
+  <div class="input-container">
+    <select class="form-select" formControlName="selectedTag">
+      <option value="">None</option>
+      @for(tag of tags; track tag){
+
+      <option>{{tag}}</option>
+      }
+    </select>
+
+    <button type="button" class="form-button" (click)="addTagHandler();">Add tag</button>
+  </div>
+
+  <div class="input-container">
+    <input class="form-button" type="submit" />
+  </div>
+</form>

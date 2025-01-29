@@ -31,7 +31,6 @@ export class BooksListComponent implements OnInit {
 
   cardClickEventHandler(id: number) {
     this.router.navigateByUrl(`/book?id=${id}`);
-    console.log(id);
   }
 
   buttonClickEventHandler(page: number) {
@@ -46,7 +45,6 @@ export class BooksListComponent implements OnInit {
         if (response.isSucceeded) {
           this.books = response.data?.books!;
           this.lastPage = response.data?.lastPage!;
-          console.log(response.data);
         }
         else {
           this.errorMessage = response.message;

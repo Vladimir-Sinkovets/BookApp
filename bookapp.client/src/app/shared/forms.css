@@ -49,15 +49,24 @@
   background-color: whitesmoke;
 }
 
-/*app-form input[type="submit"]:hover {
-  background-color: #cccccc;
+.form-button:hover {
+  background-color: lightgray;
 }
 
-app-form input[type="submit"]:active {
-  background-color: #9f9f9f;
-}*/
+.form-button:active {
+  background-color: gray;
+}
 
-.errorMessage{
-    color: red;
-    font-weight: bold;
+.errorMessage {
+  color: red;
+  font-weight: bold;
+}
+
+.form-select {
+  border: 1px solid #aeaeae;
+  width: 150px;
+  height: 35px;
+  margin: 5px;
+  padding: 5px;
+  background-color: white;
 }
