@@ -1,32 +1,32 @@
 <h2>
   Registration
 </h2>
-<form class="app-form" [formGroup]="form" (ngSubmit)="handleSubmit()">
-  <div>
+<form class="app-form narrow-form" [formGroup]="form" (ngSubmit)="handleSubmit()">
+  <div class="input-container">
     <p class="errorMessage">
       {{errorMessage}}
     </p>
   </div>
-  <div>
-    <label>Name</label>
-    <input type="text" formControlName="name" />
+  <div class="input-container">
+    <label class="form-label">Name</label>
+    <input class="form-input narrow-input" type="text" formControlName="name" />
   </div>
 
-  <div>
-    <label>Email</label>
-    <input type="text" formControlName="email" />
+  <div class="input-container">
+    <label class="form-label">Email</label>
+    <input class="form-input narrow-input" type="text" formControlName="email" />
   </div>
 
-  <div>
-    <label>Password</label>
-    <input type="password" formControlName="password" />
+  <div class="input-container">
+    <label class="form-label">Password</label>
+    <input class="form-input narrow-input" type="password" formControlName="password" />
   </div>
 
-  <div>
-    <label>Repeat password</label>
-    <input type="password" formControlName="repeatPassword" />
+  <div class="input-container">
+    <label class="form-label">Repeat password</label>
+    <input class="form-input narrow-input" type="password" formControlName="repeatPassword" />
   </div>
-  <div>
-    <input type="submit" />
+  <div class="input-container">
+    <input class="form-button" type="submit" />
   </div>
 </form>

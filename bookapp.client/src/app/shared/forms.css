@@ -1,29 +1,46 @@
 .app-form {
   border: 1px solid #aeaeae;
   margin: 0 auto;
-  width: 350px;
   background-color: #f5f5f5;
 }
 
-.app-form div {
+.wide-form {
+  width: 800px;
+}
+
+.narrow-form {
+  width: 350px;
+}
+
+.input-container {
   margin: 10px;
 }
 
-.app-form label {
+.form-label {
   display: block;
   font-weight: bold;
 }
 
-.app-form input {
+.form-textarea {
+  height: 200px;
+  width: 500px;
+  }
+
+.form-input {
   border: 1px solid #aeaeae;
   height: 20px;
-  width: 250px;
   margin: 5px;
   padding: 5px;
   background-color: white;
 }
+.narrow-input {
+  width: 250px;
+}
+.wide-input {
+  width: 500px;
+}
 
-.app-form input[type="submit"] {
+.form-button {
   border: 1px solid #aeaeae;
   height: 35px;
   width: 150px;
@@ -32,13 +49,13 @@
   background-color: whitesmoke;
 }
 
-app-form input[type="submit"]:hover {
+/*app-form input[type="submit"]:hover {
   background-color: #cccccc;
 }
 
 app-form input[type="submit"]:active {
   background-color: #9f9f9f;
-}
+}*/
 
 .errorMessage{
     color: red;
