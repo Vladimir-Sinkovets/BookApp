@@ -8,7 +8,7 @@
   <p>
     @for (tag of tags; track tag)
     {
-    <button class="tag-button" (click)="tagClickHandler(tag); $event.stopPropagation()">{{tag}}</button>&nbsp;
+    <app-tag-button [tag]="tag" (clickEvent)="tagClickHandler(tag)"/>&nbsp;
     }
   </p>
 </div>

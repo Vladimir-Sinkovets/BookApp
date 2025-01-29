@@ -1,0 +1,8 @@
+.tag-button {
+  border-radius: 9px;
+  background-color: azure;
+}
+
+.tag-button:hover {
+  background-color: cadetblue;
+}

@@ -2,12 +2,14 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { BookApiService } from "../../services/book-api.service";
 import { Book } from "../../types/book.type";
+import { TagButtonComponent } from "../../components/tag-component/tag-button.component";
 
 @Component({
   selector: 'app-book-page',
   templateUrl: './book.component.html',
+  styleUrl: './book.component.css',
   standalone: true,
-  imports: []
+  imports: [TagButtonComponent]
 })
 export class BookComponent implements OnInit {
   id: number = 0;
