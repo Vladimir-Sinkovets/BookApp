@@ -1,9 +1,9 @@
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { catchError, map, Observable, of, tap } from "rxjs";
-import { ApiResponse } from "../../types/api-response.type";
-import { IBook } from "../types/book.interface";
+import { ApiResponse } from "../../shared/models/api-response.type";
+import { IBook } from "../models/book.model";
 import { Injectable } from "@angular/core";
-import { IAddBook } from "../types/add-book.interface";
+import { IAddBook } from "../models/add-book.model";
 
 @Injectable({
   providedIn: 'root',

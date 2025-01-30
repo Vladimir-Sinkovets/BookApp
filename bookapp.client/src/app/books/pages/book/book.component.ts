@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { BookApiService } from "../../services/book-api.service";
-import { IBook } from "../../types/book.interface";
+import { IBook } from "../../models/book.model";
 import { TagButtonComponent } from "../../components/tag-component/tag-button.component";
 
 @Component({

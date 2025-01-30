@@ -4,22 +4,25 @@ import { BooksComponent } from './books/pages/books/books.component';
 import { BookComponent } from './books/pages/book/book.component';
 import { AddBookComponent } from './books/pages/add-book/add-book.component';
 import { UpdateBookComponent } from './books/pages/update-book/update-book.component';
+import { LoginComponent } from './auth/pages/login/login.component';
+import { RegisterComponent } from './auth/pages/register/register.component';
 
 const routes: Routes = [
   {
-    path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule),
+    path: 'auth',
+    children: [
+      { path: "login", component: LoginComponent, },
+      { path: "register", component: RegisterComponent, },
+    ]
   },
   {
-    path: 'book/list/:page', component: BooksComponent,
-  },
-  {
-    path: 'book/get/:id', component: BookComponent,
-  },
-  {
-    path: 'book/add', component: AddBookComponent,
-  },
-  {
-    path: 'book/update/:id', component: UpdateBookComponent,
+    path: 'book',
+    children: [
+      { path: 'list/:page', component: BooksComponent, },
+      { path: 'get/:id', component: BookComponent, },
+      { path: 'add', component: AddBookComponent, },
+      { path: 'update/:id', component: UpdateBookComponent, },
+    ]
   }
 ];
 
