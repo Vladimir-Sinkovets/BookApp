@@ -65,4 +65,27 @@ export class BookApiService {
         }
         ));
   }
+
+  updateBook(data: IBook): Observable<ApiResponse<IBook>> {
+    return this.http.put<IBook>(`${this.domain}/api/book/update`, data)
+      .pipe(
+        map(response => {
+          return {
+            isSucceeded: true,
+            message: 'success',
+            data: response
+          }
+        }),
+        catchError((error: HttpErrorResponse) => {
+          const message =
+            error.status === 404 ? 'Nonexistent data' :
+              error.status === 500 ? 'Server error' : 'Unknown error';
+
+          return of({
+            isSucceeded: false,
+            message,
+            data: undefined,
+          })
+        }));
+  }
 }

@@ -69,6 +69,7 @@ namespace BookApp.BLL.Services.BookServices
             if (bookEntry == null)
                 throw new NotFoundException();
 
+            bookEntry.Title = book.Title;
             bookEntry.Fragment = book.Fragment;
             bookEntry.Author = book.Author;
             bookEntry.Description = book.Description;
