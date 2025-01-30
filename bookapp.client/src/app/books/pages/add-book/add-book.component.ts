@@ -8,7 +8,7 @@ import { Router } from "@angular/router";
 @Component({
   selector: 'app-add-book-page',
   templateUrl: './add-book.component.html',
-  styleUrls: ['../../../shared/forms.css'],
+  styleUrls: ['../../../../styles/forms.css'],
   standalone: true,
   imports: [ReactiveFormsModule, TagButtonComponent]
 })

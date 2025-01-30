@@ -6,7 +6,7 @@ import { AuthApiService } from '../../services/auth.api-service';
 @Component({
   selector: 'app-login-form',
   templateUrl: './login-form.component.html',
-  styleUrl: '../../../shared/forms.css',
+  styleUrl: '../../../../styles/forms.css',
   standalone: true,
   imports: [ReactiveFormsModule]
 })
