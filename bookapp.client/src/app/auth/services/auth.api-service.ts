@@ -1,6 +1,6 @@
 import { HttpClient, HttpResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { catchError, map, Observable, of, tap } from "rxjs";
+import { BehaviorSubject, catchError, map, Observable, of, tap } from "rxjs";
 import { ApiResponse } from "../../shared/models/api-response.type";
 
 export interface TokenResponse {
@@ -13,6 +13,9 @@ export interface TokenResponse {
 })
 export class AuthApiService {
   private domain = 'https://localhost:7085';
+
+  private isLoggedInSubject = new BehaviorSubject<boolean>(false);
+  isLoggedIn$ = this.isLoggedInSubject.asObservable();
 
   private accessTokenKey = "accessToken";
   private refreshTokenKey = "refreshToken";
@@ -79,7 +82,20 @@ export class AuthApiService {
     return localStorage.getItem(this.accessTokenKey) ?? '';
   }
 
+  logOut(): void {
+    this.isLoggedInSubject.next(false);
+
+    localStorage.removeItem(this.accessTokenKey);
+    localStorage.removeItem(this.refreshTokenKey);
+  }
+
+  isLoggedIn(): boolean {
+    return localStorage.getItem(this.accessTokenKey) !== null;
+  }
+
   private SetTokens(response: HttpResponse<TokenResponse>) {
+    this.isLoggedInSubject.next(true);
+
     localStorage.setItem(this.accessTokenKey, response.body?.accessToken!);
     localStorage.setItem(this.refreshTokenKey, response.body?.refreshToken!);
   }

@@ -4,6 +4,13 @@
     <a routerLink="book/list/1">Book list</a>
     <a routerLink="book/list/1">Book list</a>
     <a routerLink="book/list/1">Book list</a>
-    <a class="login-button" routerLink="auth/login">Login</a>
+
+    <span *ngIf="!isLoggedIn">
+      <a class="login-button" routerLink="auth/login">Login</a>
+    </span>
+
+    <span *ngIf="isLoggedIn">
+      <a class="logout-button" (click)="logoutClick()">Logout</a>
+    </span>
   </nav>
 </header>
