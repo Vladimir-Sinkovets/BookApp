@@ -65,7 +65,7 @@ export class UpdateBookComponent implements OnInit {
     })
       .subscribe(response => {
         if (response.isSucceeded) {
-          this.router.navigateByUrl(`book?id=${response.data?.id}`);
+          this.router.navigateByUrl(`book/get/${response.data?.id}`);
         }
         else {
           this.errorMessage = response.message;

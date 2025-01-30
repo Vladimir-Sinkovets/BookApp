@@ -20,13 +20,12 @@ export class BookComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router, private bookApi: BookApiService) {
   }
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      this.id = params['id'] ?? 1;
 
-      if (this.id == 0) {
-        this.router.navigate(['/']);
-      }
-    });
+    this.id = Number(this.route.snapshot.paramMap.get('id'));
+
+    if (this.id == 0) {
+      this.router.navigate(['/']);
+    }
 
     this.bookApi.getBook(this.id)
       .subscribe(response => {

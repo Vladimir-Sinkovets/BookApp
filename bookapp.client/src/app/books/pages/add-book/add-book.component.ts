@@ -51,7 +51,7 @@ export class AddBookComponent implements OnInit {
           this.errorMessage = response.message;
         }
         else {
-          this.router.navigateByUrl(`/book?id=${response.data?.id}`);
+          this.router.navigateByUrl(`/book/get/${response.data?.id}`);
         }
       });
   }

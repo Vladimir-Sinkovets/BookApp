@@ -10,10 +10,10 @@ const routes: Routes = [
     path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule),
   },
   {
-    path: 'book/list', component: BooksComponent,
+    path: 'book/list/:page', component: BooksComponent,
   },
   {
-    path: 'book', component: BookComponent,
+    path: 'book/get/:id', component: BookComponent,
   },
   {
     path: 'book/add', component: AddBookComponent,

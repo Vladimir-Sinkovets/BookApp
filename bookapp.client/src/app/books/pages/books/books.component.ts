@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { BooksListComponent } from "../../components/books-list-component/books-list.component";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: 'app-books-page',
@@ -10,14 +10,22 @@ import { ActivatedRoute } from "@angular/router";
 })
 export class BooksComponent implements OnInit {
   page: number = 1;
-  booksPerPage: number = 1;
+  booksPerPage: number = 16;
 
-  constructor(private route: ActivatedRoute) {
-  }
+  constructor(private route: ActivatedRoute, private router: Router) { }
+
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      this.page = params['page'] ?? 1;
-      this.booksPerPage = params['booksperpage'] ?? 16;
-    });
+    this.setPage();
+  }
+
+  pageChangedEventHandler(page: number) {
+    this.router.navigateByUrl(`book/list/${page}`)
+      .then(v => {
+        this.setPage()
+      });
+  }
+
+  private setPage() {
+    this.page = Number(this.route.snapshot.paramMap.get('page'));
   }
 }

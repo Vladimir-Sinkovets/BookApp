@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from "@angular/core";
 import { BookApiService } from "../../services/book-api.service";
 import { IBook } from "../../types/book.interface";
 import { BooksCardComponent } from "../book-card-component/book-card.component";
@@ -12,16 +12,18 @@ import { PaginationComponent } from "../pagination-component/pagination.componen
   standalone: true,
   imports: [BooksCardComponent, PaginationComponent],
 })
-export class BooksListComponent implements OnInit {
+export class BooksListComponent implements OnChanges {
   @Input() page: number = 1;
   @Input() lastPage: number = 1;
   @Input() booksPerPage: number = 20;
+
+  @Output() pageChangedEvent = new EventEmitter<number>();
 
   errorMessage: string = '';
   books: IBook[] = [];
   constructor(private bookApi: BookApiService, private router: Router) { }
 
-  ngOnInit(): void {
+  ngOnChanges(): void {
     this.setPage(this.page);
   }
 
@@ -30,11 +32,11 @@ export class BooksListComponent implements OnInit {
   }
 
   cardClickEventHandler(id: number) {
-    this.router.navigateByUrl(`/book?id=${id}`);
+    this.router.navigateByUrl(`/book/get/${id}`);
   }
 
-  buttonClickEventHandler(page: number) {
-    this.setPage(page);
+  paginationClickHandler(page: number) {
+    this.pageChangedEvent.emit(page);
   }
 
   private setPage(page: number) {
