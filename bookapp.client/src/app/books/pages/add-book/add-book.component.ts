@@ -3,6 +3,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angula
 import { TagButtonComponent } from "../../components/tag-component/tag-button.component";
 import { TagApiService } from "../../services/tag-api.service";
 import { BookApiService } from "../../services/book-api.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-add-book-page',
@@ -12,7 +13,7 @@ import { BookApiService } from "../../services/book-api.service";
   imports: [ReactiveFormsModule, TagButtonComponent]
 })
 export class AddBookComponent implements OnInit {
-
+  errorMessage: string = '';
   tags: string[] = [];
   addedTags: string[] = [];
 
@@ -21,10 +22,10 @@ export class AddBookComponent implements OnInit {
     author: new FormControl('', Validators.required),
     description: new FormControl('', Validators.required),
     fragment: new FormControl(''),
-    selectedTag: new FormControl('', Validators.required),
+    selectedTag: new FormControl(''),
   })
 
-  constructor(private tagApi: TagApiService, private bookApi: BookApiService) { }
+  constructor(private tagApi: TagApiService, private bookApi: BookApiService, private router: Router) { }
 
   ngOnInit(): void {
     this.tagApi.getTags()
@@ -34,7 +35,25 @@ export class AddBookComponent implements OnInit {
   }
 
   handleSubmit() {
+    if (!this.form.valid) {
+      return;
+    }
 
+    this.bookApi.addBook({
+      title: this.form.value.title!,
+      author: this.form.value.author!,
+      description: this.form.value.description!,
+      fragment: this.form.value.fragment!,
+      tags: this.addedTags,
+    })
+      .subscribe(response => {
+        if (!response.isSucceeded) {
+          this.errorMessage = response.message;
+        }
+        else {
+          this.router.navigateByUrl(`/book?id=${response.data?.id}`);
+        }
+      });
   }
 
   addTagHandler() {
