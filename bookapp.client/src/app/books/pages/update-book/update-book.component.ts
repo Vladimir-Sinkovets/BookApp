@@ -8,7 +8,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 @Component({
   selector: 'app-update-page',
   templateUrl: '../add-book/add-book.component.html',
-  styleUrls: ['../../../shared/forms.css'],
+  styleUrls: ['../../../../styles/forms.css'],
   imports: [ReactiveFormsModule, TagButtonComponent]
 })
 export class UpdateBookComponent implements OnInit {
