@@ -3,3 +3,19 @@
     width: 800px;
     margin: auto;
 }
+
+.edit-button {
+  background-color: cornflowerblue;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  border: none;
+  font-size: 1rem;
+  color: white;
+}
+
+.edit-button:hover {
+  background-color: blue;
+}
+.edit-button:active {
+  background-color: darkblue;
+}

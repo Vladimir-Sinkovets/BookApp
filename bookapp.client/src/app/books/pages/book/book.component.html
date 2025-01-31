@@ -5,6 +5,9 @@
   <p>
     {{book.author}}
   </p>
+  <div ngIf="isAdmin">
+    <a class="edit-button" (click)="editClick()">Edit</a>
+  </div>
   <p>
     <span>Tags: </span>
     @for (tag of book.tags; track tag)
