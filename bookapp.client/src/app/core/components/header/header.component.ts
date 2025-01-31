@@ -11,13 +11,20 @@ import { NgIf } from "@angular/common";
   imports: [RouterLink, NgIf],
 })
 export class HeaderComponent {
-  isLoggedIn: boolean = true;
+  isLoggedIn: boolean;
+  isAdmin: boolean;
   constructor(private auth: AuthApiService, private router: Router)
   {
     this.auth.isLoggedIn$
       .subscribe(isLoggedIn => {
         this.isLoggedIn = isLoggedIn;
+
+        this.isAdmin = this.auth.isAdmin();
       });
+
+    this.isLoggedIn = auth.isLoggedIn();
+
+    this.isAdmin = this.auth.isAdmin();
   }
 
   logoutClick() {

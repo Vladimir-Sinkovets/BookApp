@@ -2,6 +2,7 @@ import { HttpClient, HttpResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, catchError, map, Observable, of, tap } from "rxjs";
 import { ApiResponse } from "../../shared/models/api-response.type";
+import { jwtDecode } from 'jwt-decode';
 
 export interface TokenResponse {
   accessToken: string,
@@ -14,7 +15,7 @@ export interface TokenResponse {
 export class AuthApiService {
   private domain = 'https://localhost:7085';
 
-  private isLoggedInSubject = new BehaviorSubject<boolean>(false);
+  private isLoggedInSubject = new BehaviorSubject<boolean>(this.isLoggedIn());
   isLoggedIn$ = this.isLoggedInSubject.asObservable();
 
   private accessTokenKey = "accessToken";
@@ -27,7 +28,7 @@ export class AuthApiService {
       .pipe(
         tap(response => {
           if (response instanceof HttpResponse) {
-            this.SetTokens(response);
+            this.setTokens(response);
           }
         }),
         catchError((error) => {
@@ -55,7 +56,7 @@ export class AuthApiService {
       .pipe(
         tap(response => {
           if (response instanceof HttpResponse) {
-            this.SetTokens(response);
+            this.setTokens(response);
           }
         }),
         catchError((error) => {
@@ -83,20 +84,38 @@ export class AuthApiService {
   }
 
   logOut(): void {
-    this.isLoggedInSubject.next(false);
-
     localStorage.removeItem(this.accessTokenKey);
     localStorage.removeItem(this.refreshTokenKey);
+
+    this.isLoggedInSubject.next(false);
   }
 
   isLoggedIn(): boolean {
     return localStorage.getItem(this.accessTokenKey) !== null;
   }
 
-  private SetTokens(response: HttpResponse<TokenResponse>) {
-    this.isLoggedInSubject.next(true);
+  isAdmin(): boolean {
+    return this.getUserRole() === 'Admin';
+  }
 
+  private getUserRole(): string {
+    const token = this.getAccessToken();
+
+    if (!token)
+      return '';
+
+    const decodedToken = jwtDecode<any>(token);
+
+    if (decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] === undefined)
+      return '';
+
+    return decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+  }
+
+  private setTokens(response: HttpResponse<TokenResponse>) {
     localStorage.setItem(this.accessTokenKey, response.body?.accessToken!);
     localStorage.setItem(this.refreshTokenKey, response.body?.refreshToken!);
+
+    this.isLoggedInSubject.next(true);
   }
 }

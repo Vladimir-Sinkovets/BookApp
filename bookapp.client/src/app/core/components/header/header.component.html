@@ -2,8 +2,10 @@
   <h1>My App</h1>
   <nav>
     <a routerLink="book/list/1">Book list</a>
-    <a routerLink="book/list/1">Book list</a>
-    <a routerLink="book/list/1">Book list</a>
+
+    <span *ngIf="isAdmin">
+      <a routerLink="book/list/1">Admin panel</a>
+    </span>
 
     <span *ngIf="!isLoggedIn">
       <a class="login-button" routerLink="auth/login">Login</a>
