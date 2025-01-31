@@ -6,6 +6,8 @@ import { AddBookComponent } from './books/pages/add-book/add-book.component';
 import { UpdateBookComponent } from './books/pages/update-book/update-book.component';
 import { LoginComponent } from './auth/pages/login/login.component';
 import { RegisterComponent } from './auth/pages/register/register.component';
+import { loginGuard } from './core/guards/login.guard';
+import { adminGuard } from './core/guards/admin.guard';
 
 const routes: Routes = [
   {
@@ -17,11 +19,12 @@ const routes: Routes = [
   },
   {
     path: 'book',
+    canActivateChild: [loginGuard],
     children: [
       { path: 'list/:page', component: BooksComponent, },
       { path: 'get/:id', component: BookComponent, },
-      { path: 'add', component: AddBookComponent, },
-      { path: 'update/:id', component: UpdateBookComponent, },
+      { path: 'add', canActivate: [adminGuard], component: AddBookComponent, },
+      { path: 'update/:id', canActivate: [adminGuard], component: UpdateBookComponent, },
     ]
   }
 ];
