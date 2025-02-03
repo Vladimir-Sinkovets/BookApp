@@ -32,14 +32,14 @@ namespace BookApp.BLL.Services.AuthServices
             var principal = tokenService.ValidateRefreshToken(token);
 
             if (principal == null)
-                throw new TokenException();
+                throw new BadRequestException();
 
             var userId = int.Parse(principal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
 
             var user = unitOfWork.UsersRepository.FirstOrDefault(u =>  userId == u.Id);
 
             if (user == null )
-                throw new TokenException();
+                throw new BadRequestException();
 
             return GenerateTokens(user);
         }

@@ -1,23 +1,50 @@
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
-import { Observable } from "rxjs";
-import { AuthApiService } from "../../auth/services/auth.api-service";
 import { Injectable } from "@angular/core";
+import { Router } from "@angular/router";
+import { Observable, switchMap, EMPTY } from "rxjs";
+import { AuthApiService } from "../../auth/services/auth.api-service";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private auth: AuthApiService) { }
+  isRefreshing: boolean = false;
+  constructor(private auth: AuthApiService, private router: Router) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const accessToken = this.auth.getAccessToken();
+    const isAccessTokenExpired = this.auth.isAccessTokenExpired();
+    const isRefreshTokenExpired = this.auth.isRefreshTokenExpired();
 
-    if (accessToken) {
-      req = req.clone({
-        setHeaders: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+    if (isAccessTokenExpired && !this.isRefreshing) {
+      if (!isRefreshTokenExpired) {
+        this.isRefreshing = true;
+
+        return this.auth.refreshAccessToken()
+          .pipe(
+            switchMap(response => {
+              this.isRefreshing = false;
+
+              return next.handle(this.createRequestWithToken(req));
+            })
+          );
+      }
+      else {
+        this.router.navigateByUrl('/auth/login');
+        return EMPTY;
+      }
     }
 
-    return next.handle(req);
+    return next.handle(this.createRequestWithToken(req));
   }
+
+    private createRequestWithToken(req: HttpRequest<any>) {
+        const accessToken = this.auth.getAccessToken();
+
+        if (accessToken) {
+            req = req.clone({
+                setHeaders: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+        }
+        return req;
+    }
 }

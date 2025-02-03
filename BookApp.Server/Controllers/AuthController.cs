@@ -35,7 +35,7 @@ namespace BookApp.Server.Controllers
             return Ok(response);
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("refresh")]
         public IActionResult Refresh(string token)
         {

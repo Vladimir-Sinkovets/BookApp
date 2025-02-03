@@ -79,8 +79,40 @@ export class AuthApiService {
       );
   }
 
+  refreshAccessToken(): Observable<ApiResponse<TokenResponse>> {
+    const refreshToken = this.getRefreshToken();
+
+    return this.http.get<TokenResponse>(`${this.domain}/api/auth/refresh?token=${refreshToken}`, { observe: 'response' })
+      .pipe(
+        tap(response => {
+          if (response instanceof HttpResponse) {
+            this.setTokens(response);
+          }
+        }),
+        catchError(error => {
+          if (error.status == 400) {
+            this.logOut();
+            return of({ isSucceeded: false, message: 'Wrong data', data: undefined });
+          } else if (error.status == 500) {
+            return of({ isSucceeded: false, message: 'Server error', data: undefined });
+          }
+          return of({ isSucceeded: false, message: 'Unknown error', data: undefined });
+        }),
+        map(response => {
+          if (response instanceof HttpResponse) {
+            return { isSucceeded: true, message: 'Success', data: response.body ?? undefined };
+          } else {
+            return response;
+          }
+        }));
+  }
+
   getAccessToken(): string {
     return localStorage.getItem(this.accessTokenKey) ?? '';
+  }
+
+  getRefreshToken(): string {
+    return localStorage.getItem(this.refreshTokenKey) ?? '';
   }
 
   logOut(): void {
@@ -94,22 +126,53 @@ export class AuthApiService {
     return localStorage.getItem(this.accessTokenKey) !== null;
   }
 
-  isAdmin(): boolean {
-    return this.getUserRole() === 'Admin';
+  isAccessTokenExpired(): boolean {
+    const token = this.getDecodedAccessToken();
+
+    if (token.exp == undefined)
+      return true;
+
+    const currentTime = Date.now() / 1000;
+
+    return currentTime > Number(token.exp);
   }
 
-  private getUserRole(): string {
+  isRefreshTokenExpired(): boolean {
+    const token = this.getDecodedRefreshToken();
+
+    if (token.exp == undefined)
+      return true;
+
+    const currentTime = Date.now() / 1000;
+
+    return currentTime > Number(token.exp);
+  }
+
+  isAdmin(): boolean {
+    const decodedToken = this.getDecodedAccessToken();
+
+    if (decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] === undefined)
+      return false;
+
+    return decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] === 'Admin';
+  }
+
+  private getDecodedAccessToken(): any {
     const token = this.getAccessToken();
 
     if (!token)
       return '';
 
-    const decodedToken = jwtDecode<any>(token);
+    return jwtDecode<any>(token);
+  }
 
-    if (decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] === undefined)
+  private getDecodedRefreshToken(): any {
+    const token = this.getRefreshToken();
+
+    if (!token)
       return '';
 
-    return decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+    return jwtDecode<any>(token);
   }
 
   private setTokens(response: HttpResponse<TokenResponse>) {
