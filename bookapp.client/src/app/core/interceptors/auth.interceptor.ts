@@ -1,7 +1,7 @@
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
+import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
-import { Observable, switchMap, EMPTY } from "rxjs";
+import { Observable, switchMap, EMPTY, catchError } from "rxjs";
 import { AuthApiService } from "../../auth/services/auth.api-service";
 
 @Injectable()
@@ -26,12 +26,17 @@ export class AuthInterceptor implements HttpInterceptor {
             })
           );
       }
-      else {
-        this.router.navigateByUrl('/auth/login');
-      }
     }
 
-    return next.handle(this.createRequestWithToken(req));
+    return next.handle(this.createRequestWithToken(req))
+      .pipe(
+        catchError(error => {
+          if (error instanceof HttpErrorResponse && error.status === 401) {
+            this.router.navigateByUrl('/auth/login');
+          }
+          throw (error);
+        })
+      );
   }
 
     private createRequestWithToken(req: HttpRequest<any>) {
