@@ -8,6 +8,8 @@ import { LoginComponent } from './auth/pages/login/login.component';
 import { RegisterComponent } from './auth/pages/register/register.component';
 import { loginGuard } from './core/guards/login.guard';
 import { adminGuard } from './core/guards/admin.guard';
+import { AdminPanelComponent } from './admin/pages/admin-panel/admin-panel.component';
+import { BookSubMenuComponent } from './admin/pages/books-sub-menu/books-sub-menu.component';
 
 const routes: Routes = [
   {
@@ -25,6 +27,19 @@ const routes: Routes = [
       { path: 'get/:id', component: BookComponent, },
       { path: 'add', canActivate: [adminGuard], component: AddBookComponent, },
       { path: 'update/:id', canActivate: [adminGuard], component: UpdateBookComponent, },
+    ]
+  },
+  {
+    path: 'admin',
+    canActivateChild: [adminGuard],
+    children: [
+      {
+        path: 'panel',
+        component: AdminPanelComponent,
+        children: [
+          { path: 'books', component: BookSubMenuComponent , },
+        ]
+      },
     ]
   }
 ];

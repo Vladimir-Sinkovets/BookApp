@@ -1,0 +1,32 @@
+.menu {
+  flex: 1;
+  padding: 20px;
+}
+.menu ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu ul li {
+  margin-bottom: 10px;
+}
+
+.menu ul li button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  text-align: left;
+  color: darkslategray;
+  text-decoration: none;
+  border: 1px solid gray;
+  background-color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.menu ul li button:hover {
+  text-decoration: underline;
+  background-color: darkslategrey;
+  color: #fff;
+}
