@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject, catchError, map, Observable, of, tap } from "rxjs";
 import { ApiResponse } from "../../shared/models/api-response.type";
 import { jwtDecode } from 'jwt-decode';
+import { environment } from "../../../environments/environment";
 
 export interface TokenResponse {
   accessToken: string,
@@ -13,8 +14,6 @@ export interface TokenResponse {
   providedIn: 'root',
 })
 export class AuthApiService {
-  private domain = 'https://localhost:7085';
-
   private isLoggedInSubject = new BehaviorSubject<boolean>(this.isLoggedIn());
   isLoggedIn$ = this.isLoggedInSubject.asObservable();
 
@@ -24,7 +23,7 @@ export class AuthApiService {
   constructor(private http: HttpClient) { }
 
   register(data: { email: string, name: string, password: string }): Observable<ApiResponse<TokenResponse>> {
-    return this.http.post<TokenResponse>(`${this.domain}/api/auth/register`, data, { observe: 'response' })
+    return this.http.post<TokenResponse>(`${environment.apiUrl}/api/auth/register`, data, { observe: 'response' })
       .pipe(
         tap(response => {
           if (response instanceof HttpResponse) {
@@ -52,7 +51,7 @@ export class AuthApiService {
   }
 
   login(data: { email: string, password: string }) : Observable<ApiResponse<TokenResponse>> {
-    return this.http.post<TokenResponse>(`${this.domain}/api/auth/login`, data, { observe: 'response' })
+    return this.http.post<TokenResponse>(`${environment.apiUrl}/api/auth/login`, data, { observe: 'response' })
       .pipe(
         tap(response => {
           if (response instanceof HttpResponse) {
@@ -82,7 +81,7 @@ export class AuthApiService {
   refreshAccessToken(): Observable<ApiResponse<TokenResponse>> {
     const refreshToken = this.getRefreshToken();
 
-    return this.http.get<TokenResponse>(`${this.domain}/api/auth/refresh?token=${refreshToken}`, { observe: 'response' })
+    return this.http.get<TokenResponse>(`${environment.apiUrl}/api/auth/refresh?token=${refreshToken}`, { observe: 'response' })
       .pipe(
         tap(response => {
           if (response instanceof HttpResponse) {
