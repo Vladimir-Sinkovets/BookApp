@@ -1,9 +1,10 @@
+import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { BookApiService } from "../../services/book-api.service";
-import { IBook } from "../../models/book.model";
-import { TagButtonComponent } from "../../components/tag-component/tag-button.component";
 import { AuthApiService } from "../../../auth/services/auth.api-service";
+import { TagButtonComponent } from "../../components/tag-component/tag-button.component";
+import { IBook } from "../../models/book.model";
+import { BookApiService } from "../../services/book-api.service";
 
 @Component({
   selector: 'app-book-page',
