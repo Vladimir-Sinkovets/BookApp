@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from "@angular/core";
 import { BookApiService } from "../../services/book-api.service";
 import { IBook } from "../../models/book.model";
-import { BooksCardComponent } from "../book-card-component/book-card.component";
+import { BookCardComponent } from "../book-card-component/book-card.component";
 import { Router } from "@angular/router";
 import { PaginationComponent } from "../pagination-component/pagination.component";
 
@@ -10,7 +10,7 @@ import { PaginationComponent } from "../pagination-component/pagination.componen
   templateUrl: './books-list.component.html',
   styleUrl: './books-list.component.css',
   standalone: true,
-  imports: [BooksCardComponent, PaginationComponent],
+  imports: [BookCardComponent, PaginationComponent],
 })
 export class BooksListComponent implements OnChanges {
   @Input() page: number = 1;

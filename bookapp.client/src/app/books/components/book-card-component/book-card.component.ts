@@ -8,7 +8,7 @@ import { TagButtonComponent } from "../tag-component/tag-button.component";
   standalone: true,
   imports: [TagButtonComponent],
 })
-export class BooksCardComponent {
+export class BookCardComponent {
   @Input() id: number = 0;
   @Input() title: string = '';
   @Input() author: string = '';
