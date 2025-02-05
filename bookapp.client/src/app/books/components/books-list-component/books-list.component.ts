@@ -8,7 +8,7 @@ import { PaginationComponent } from "../pagination-component/pagination.componen
 @Component({
   selector: 'app-books-list',
   templateUrl: './books-list.component.html',
-  styleUrl: './books-list.component.css',
+  styleUrls: ['./books-list.component.css', '../../../../styles/forms.css'],
   standalone: true,
   imports: [BookCardComponent, PaginationComponent],
 })
