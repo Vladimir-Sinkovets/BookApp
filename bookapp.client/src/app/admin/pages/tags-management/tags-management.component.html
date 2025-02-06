@@ -1,0 +1,12 @@
+<div>
+  <form>
+    <input type="text" />
+    <button>Add</button>
+  </form>
+  <div>
+    @for (tag of tags; track tag)
+    {
+    <app-tag-button [tag]="tag" (clickEvent)="tagClickHandler(tag)" />&nbsp;
+    }
+  </div>
+</div>
