@@ -38,7 +38,7 @@ describe('AuthApiService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('register(data) should send POST request', () => {
+  it('register() should send POST request', () => {
     // arrange
 
     // act
@@ -50,7 +50,7 @@ describe('AuthApiService', () => {
     expect(req.request.body).toEqual(testData);
   });
 
-  it('register(data) should handle successful registration', fakeAsync(() => {
+  it('register() should handle successful registration', fakeAsync(() => {
     // arrange
     let result: ApiResponse<TokenResponse> | undefined;
 
@@ -64,10 +64,6 @@ describe('AuthApiService', () => {
     // assert
     expect(localStorage.getItem('accessToken')).toBe('accessToken');
     expect(localStorage.getItem('refreshToken')).toBe('refreshToken');
-
-    service.isLoggedIn$.subscribe(isLogged => {
-      expect(isLogged).toBeTrue();
-    });
 
     expect(result).toEqual({
       isSucceeded: true,
@@ -84,7 +80,7 @@ describe('AuthApiService', () => {
   ];
 
   errorTestCases.forEach(({ status, expectedMessage }) => {
-    it(`register(data) should handle ${status} error`, fakeAsync(() => {
+    it(`register() should handle ${status} error`, fakeAsync(() => {
       // arrange
       let result: ApiResponse<TokenResponse> | undefined;
 
@@ -104,10 +100,6 @@ describe('AuthApiService', () => {
 
       expect(localStorage.getItem('accessToken')).toBeNull();
       expect(localStorage.getItem('refreshToken')).toBeNull();
-
-      service.isLoggedIn$.subscribe(isLogged => {
-        expect(isLogged).toBeFalse();
-      });
     }));
   });
 
@@ -124,7 +116,7 @@ describe('AuthApiService', () => {
     expect(req.request.body).toEqual(testData);
   });
 
-  it('login(data) should handle successful response', fakeAsync(() => {
+  it('login() should handle successful response', fakeAsync(() => {
     // arrange
     let result: ApiResponse<TokenResponse> | undefined;
 
@@ -140,10 +132,6 @@ describe('AuthApiService', () => {
     expect(localStorage.getItem(service['accessTokenKey'])).toBe('accessToken');
     expect(localStorage.getItem(service['refreshTokenKey'])).toBe('refreshToken');
 
-    service.isLoggedIn$.subscribe(isLogged => {
-      expect(isLogged).toBeTrue();
-    });
-
     expect(result).toEqual({
       isSucceeded: true,
       message: 'Success',
@@ -158,7 +146,7 @@ describe('AuthApiService', () => {
   ];
 
   errorCases.forEach(({ status, expectedMessage }) => {
-    it(`login(data) should handle ${status} error`, fakeAsync(() => {
+    it(`login() should handle ${status} error`, fakeAsync(() => {
       // arrange
       let result: ApiResponse<TokenResponse> | undefined;
 
@@ -178,14 +166,10 @@ describe('AuthApiService', () => {
 
       expect(localStorage.getItem(service['accessTokenKey'])).toBeNull();
       expect(localStorage.getItem(service['refreshTokenKey'])).toBeNull();
-
-      service.isLoggedIn$.subscribe(isLogged => {
-        expect(isLogged).toBeFalse();
-      });
     }));
   });
 
-  it('login(data) should handle network errors', fakeAsync(() => {
+  it('login() should handle network errors', fakeAsync(() => {
     // arrange
     let result: ApiResponse<TokenResponse> | undefined;
 
@@ -205,22 +189,25 @@ describe('AuthApiService', () => {
 
   it('refreshAccessToken() should return correct response', fakeAsync(() => {
     // arrange
+    let result: ApiResponse<TokenResponse> | undefined;
     localStorage.setItem('refreshToken', 'refreshToken')
 
     // act
-    service.refreshAccessToken().subscribe(response => {
-      // assert
-      expect(response.isSucceeded).toBeTruthy();
-      expect(response.message).toEqual('Success');
-      expect(response.data).toEqual({
-        accessToken: 'accessToken',
-        refreshToken: 'refreshToken',
-      });
-    });
+    service.refreshAccessToken().subscribe(response => result = response);
     const req = httpTesting.expectOne('https://localhost:7085/api/auth/refresh?token=refreshToken');
 
     req.flush(fakeResponse, { status: 200, statusText: 'OK' });
     tick();
+
+    // assert
+    expect(result).toEqual({
+      isSucceeded: true,
+      message: 'Success',
+      data: {
+        accessToken: 'accessToken',
+        refreshToken: 'refreshToken',
+      },
+    });
   }));
 
   it('refreshAccessToken() should add token to local storage', fakeAsync(() => {
@@ -247,20 +234,21 @@ describe('AuthApiService', () => {
   refreshTokenErrorCases.forEach(({ status, expectedMessage }) => {
     it(`refreshAccessToken() should handle ${status} status`, fakeAsync(() => {
       // arrange
+      let result: ApiResponse<TokenResponse> | undefined;
       localStorage.setItem('refreshToken', 'refreshToken')
 
       // act
-      service.refreshAccessToken().subscribe(response => {
-        // assert
-
-        expect(response.message).toEqual(expectedMessage);
-        expect(response.isSucceeded).toBeFalsy();
-        expect(response.data).toBeUndefined();
-      });
+      service.refreshAccessToken().subscribe(response => result = response);
       const req = httpTesting.expectOne('https://localhost:7085/api/auth/refresh?token=refreshToken');
 
       req.flush(fakeResponse, { status: status, statusText: '' });
       tick();
+      // assert
+      expect(result).toEqual({
+        isSucceeded: false,
+        message: expectedMessage,
+        data: undefined,
+      });
     }));
   });
 

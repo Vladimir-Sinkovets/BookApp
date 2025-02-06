@@ -4,7 +4,7 @@ import { AuthApiService } from "../../services/auth.api-service";
 import { RegisterFormComponent } from "./register-form.component";
 import { of } from "rxjs";
 
-describe('Login form tests', () => {
+describe('RegisterFormComponent', () => {
   let component: RegisterFormComponent;
   let fixture: ComponentFixture<RegisterFormComponent>;
   let authSpy: jasmine.SpyObj<AuthApiService>;
