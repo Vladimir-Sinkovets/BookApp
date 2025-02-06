@@ -15,13 +15,16 @@ export class BookApiService {
   }
 
   getPaginatedBooks(page: number, booksPerPage: number): Observable<ApiResponse<{ books: IBook[], lastPage: number }>> {
-    return this.http.get<{ books: IBook[], lastPage: number }>(`${environment.apiUrl}/api/book/all?page=${page}&itemsPerPage=${booksPerPage}`)
+    return this.http.get<{ items: IBook[], lastPage: number }>(`${environment.apiUrl}/api/book/all?page=${page}&itemsPerPage=${booksPerPage}`)
       .pipe(
         map(response => {
           return {
             isSucceeded: true,
             message: 'success',
-            data: response,
+            data: {
+              books: response.items,
+              lastPage: response.lastPage,
+            }
           };
         })
       )

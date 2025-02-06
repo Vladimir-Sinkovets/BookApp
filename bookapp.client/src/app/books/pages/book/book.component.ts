@@ -11,7 +11,7 @@ import { BookApiService } from "../../services/book-api.service";
   templateUrl: './book.component.html',
   styleUrl: './book.component.css',
   standalone: true,
-  imports: [TagButtonComponent]
+  imports: [TagButtonComponent, CommonModule]
 })
 export class BookComponent implements OnInit {
   id: number = 0;
