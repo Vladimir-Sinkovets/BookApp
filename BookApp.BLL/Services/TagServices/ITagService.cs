@@ -6,7 +6,7 @@ namespace BookApp.BLL.Services.TagServices
     public interface ITagService
     {
         Task<TagData> CreateTagAsync(TagData tag);
-        Task DeleteTagAsync(int id);
+        Task DeleteTagAsync(string name);
         IEnumerable<TagData> GetAll();
         TagData GetById(int id);
     }

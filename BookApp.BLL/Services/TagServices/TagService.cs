@@ -54,9 +54,9 @@ namespace BookApp.BLL.Services.TagServices
             };
         }
 
-        public async Task DeleteTagAsync(int id)
+        public async Task DeleteTagAsync(string name)
         {
-            unitOfWork.TagsRepository.Remove(t => t.Id == id);
+            unitOfWork.TagsRepository.Remove(t => t.Name == name);
 
             await unitOfWork.SaveChangesAsync(new CancellationToken());
         }

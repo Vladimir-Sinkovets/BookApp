@@ -43,9 +43,9 @@ namespace BookApp.Server.Controllers
 
         [HttpDelete]
         [Route("delete")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(string name)
         {
-            await tagService.DeleteTagAsync(id);
+            await tagService.DeleteTagAsync(name);
 
             return NoContent();
         }
