@@ -48,7 +48,7 @@ describe('BookApiService', () => {
     const booksPerPage = 10;
 
     const responseData = {
-      books: [
+      items: [
         { id: 1, title: 'test', author: 'test', description: 'test', fragment: 'test', tags: ['test'] },
       ],
       lastPage: 2,
@@ -66,7 +66,7 @@ describe('BookApiService', () => {
       isSucceeded: true,
       message: 'success',
       data: {
-        books: responseData.books,
+        books: responseData.items,
         lastPage: 2
       }
     });

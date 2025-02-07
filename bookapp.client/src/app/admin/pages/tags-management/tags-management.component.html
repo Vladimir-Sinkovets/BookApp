@@ -1,12 +1,26 @@
 <div>
-  <form>
-    <input type="text" />
-    <button>Add</button>
+  <h3>Tags management </h3>
+  <div class="error-message">
+    {{errorMessage}}
+  </div>
+  <form [formGroup]="form">
+    <div class="input-container">
+      <input class="form-input narrow-input" type="text" formControlName="newTag" />
+      <button class="form-button" (click)="addButtonClickHandler()" [disabled]="isLoading">Add</button>
+    </div>
   </form>
+  <h4>Tags:</h4>
+  @if (isLoading){
+  <div>
+    Loading...
+  </div>
+  }
+  @if (!isLoading){
   <div>
     @for (tag of tags; track tag)
     {
     <app-tag-button [tag]="tag" (clickEvent)="tagClickHandler(tag)" />&nbsp;
     }
   </div>
+  }
 </div>
