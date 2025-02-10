@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { TagButtonComponent } from "../../components/tag/tag-button.component";
+import { TagButtonComponent } from "../../../shared/components/tag/tag-button.component";
 import { ActivatedRoute, Router } from "@angular/router";
 import { BookApiService } from "../../../shared/services/book-api/book-api.service";
 import { TagApiService } from "../../../shared/services/tag-api/tag-api.service";

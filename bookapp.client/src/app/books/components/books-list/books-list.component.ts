@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from "@angular/core";
 import { BookCardComponent } from "../book-card/book-card.component";
 import { Router } from "@angular/router";
-import { PaginationComponent } from "../pagination/pagination.component";
+import { PaginationComponent } from "../../../shared/components/pagination/pagination.component";
 import { BookApiService } from "../../../shared/services/book-api/book-api.service";
 import { Book } from "../../../shared/models/book.model";
 

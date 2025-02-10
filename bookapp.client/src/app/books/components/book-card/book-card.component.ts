@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { TagButtonComponent } from "../tag/tag-button.component";
+import { TagButtonComponent } from "../../../shared/components/tag/tag-button.component";
 
 @Component({
   selector: 'app-book-card',
