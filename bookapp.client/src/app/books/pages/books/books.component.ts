@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { BooksListComponent } from "../../components/books-list-component/books-list.component";
+import { BooksListComponent } from "../../components/books-list/books-list.component";
 import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({

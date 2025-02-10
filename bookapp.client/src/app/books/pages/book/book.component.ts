@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { TagButtonComponent } from "../../components/tag-component/tag-button.component";
+import { TagButtonComponent } from "../../components/tag/tag-button.component";
 import { Book } from "../../../shared/models/book.model";
 import { BookApiService } from "../../../shared/services/book-api/book-api.service";
 import { AuthService } from "../../../shared/services/auth/auth.service";
