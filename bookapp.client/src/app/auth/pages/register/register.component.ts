@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ReactiveFormsModule } from "@angular/forms";
-import { RegisterFormComponent } from '../../components/register-component/register-form.component';
+import { RegisterFormComponent } from '../../components/register-form/register-form.component';
 
 @Component({
   selector: 'app-register-page',
