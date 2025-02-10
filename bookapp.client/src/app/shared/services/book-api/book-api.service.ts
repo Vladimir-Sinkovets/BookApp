@@ -1,10 +1,10 @@
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
-import { catchError, map, Observable, of, tap } from "rxjs";
-import { ApiResponse } from "../../shared/models/api-response.type";
-import { IBook } from "../models/book.model";
 import { Injectable } from "@angular/core";
-import { IAddBook } from "../models/add-book.model";
-import { environment } from "../../../environments/environment";
+import { catchError, map, Observable, of, tap } from "rxjs";
+import { environment } from "../../../../environments/environment";
+import { AddBook } from "../../models/add-book.model";
+import { ApiResponse } from "../../models/api-response.model";
+import { Book } from "../../models/book.model";
 
 @Injectable({
   providedIn: 'root',
@@ -14,8 +14,8 @@ export class BookApiService {
 
   }
 
-  getPaginatedBooks(page: number, booksPerPage: number): Observable<ApiResponse<{ books: IBook[], lastPage: number }>> {
-    return this.http.get<{ items: IBook[], lastPage: number }>(`${environment.apiUrl}/api/book/all?page=${page}&itemsPerPage=${booksPerPage}`)
+  getPaginatedBooks(page: number, booksPerPage: number): Observable<ApiResponse<{ books: Book[], lastPage: number }>> {
+    return this.http.get<{ items: Book[], lastPage: number }>(`${environment.apiUrl}/api/book/all?page=${page}&itemsPerPage=${booksPerPage}`)
       .pipe(
         map(response => {
           return {
@@ -30,8 +30,8 @@ export class BookApiService {
       )
   }
 
-  getBook(id: number): Observable<ApiResponse<IBook>> {
-    return this.http.get<IBook>(`${environment.apiUrl}/api/book/get?id=${id}`)
+  getBook(id: number): Observable<ApiResponse<Book>> {
+    return this.http.get<Book>(`${environment.apiUrl}/api/book/get?id=${id}`)
       .pipe(
         map(response => {
           return {
@@ -42,8 +42,8 @@ export class BookApiService {
       )
   }
 
-  addBook(data: IAddBook): Observable<ApiResponse<IBook>> {
-    return this.http.post<IBook>(`${environment.apiUrl}/api/book/create`, data)
+  addBook(data: AddBook): Observable<ApiResponse<Book>> {
+    return this.http.post<Book>(`${environment.apiUrl}/api/book/create`, data)
       .pipe(
         map(response => {
           return {
@@ -66,8 +66,8 @@ export class BookApiService {
         ));
   }
 
-  updateBook(data: IBook): Observable<ApiResponse<IBook>> {
-    return this.http.put<IBook>(`${environment.apiUrl}/api/book/update`, data)
+  updateBook(data: Book): Observable<ApiResponse<Book>> {
+    return this.http.put<Book>(`${environment.apiUrl}/api/book/update`, data)
       .pipe(
         map(response => {
           return {

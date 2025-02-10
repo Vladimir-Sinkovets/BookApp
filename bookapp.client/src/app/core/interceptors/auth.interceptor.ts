@@ -2,12 +2,12 @@ import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { Observable, switchMap, EMPTY, catchError } from "rxjs";
-import { AuthApiService } from "../../auth/services/auth.api-service";
+import { AuthService } from "../../shared/services/auth/auth.service";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   isRefreshing: boolean = false;
-  constructor(private auth: AuthApiService, private router: Router) { }
+  constructor(private auth: AuthService, private router: Router) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const isAccessTokenExpired = this.auth.isAccessTokenExpired();

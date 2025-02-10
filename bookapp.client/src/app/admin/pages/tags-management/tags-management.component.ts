@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { TagApiService } from "../../../books/services/tag-api.service";
 import { TagButtonComponent } from "../../../books/components/tag-component/tag-button.component";
+import { TagApiService } from "../../../shared/services/tag-api/tag-api.service";
 
 @Component({
   selector: 'tags-management-component',
@@ -29,7 +29,7 @@ export class TagsManagementComponent implements OnInit {
   private loadTags() {
     this.isLoading = true;
     this.tagApi.getTags()
-      .subscribe(response => {
+      .subscribe(response => {  
         if (response.isSucceeded) {
           this.tags = response.data ?? [];
         }

@@ -1,7 +1,7 @@
 import { Component, OnChanges, SimpleChanges } from "@angular/core";
 import { Router, RouterLink, RouterOutlet } from "@angular/router";
-import { AuthApiService } from "../../../auth/services/auth.api-service";
 import { NgIf } from "@angular/common";
+import { AuthService } from "../../../shared/services/auth/auth.service";
 
 @Component({
   selector: 'app-header',
@@ -13,7 +13,7 @@ import { NgIf } from "@angular/common";
 export class HeaderComponent {
   isLoggedIn: boolean;
   isAdmin: boolean;
-  constructor(private auth: AuthApiService, private router: Router)
+  constructor(private auth: AuthService, private router: Router)
   {
     this.auth.isLoggedIn$
       .subscribe(isLoggedIn => {

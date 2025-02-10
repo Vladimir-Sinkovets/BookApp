@@ -1,9 +1,9 @@
 import { ComponentFixture, fakeAsync, TestBed, tick } from "@angular/core/testing";
 import { BooksListComponent } from "./books-list.component";
-import { BookApiService } from "../../services/book-api.service";
 import { Router } from "@angular/router";
 import { of, throwError } from "rxjs";
 import { By } from "@angular/platform-browser";
+import { BookApiService } from "../../../shared/services/book-api/book-api.service";
 
 describe('BookListComponent', () => {
   let component: BooksListComponent;

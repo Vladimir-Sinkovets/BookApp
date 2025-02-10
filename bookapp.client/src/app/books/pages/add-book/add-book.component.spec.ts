@@ -1,11 +1,10 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { AddBookComponent } from "./add-book.component";
-import { TagApiService } from "../../services/tag-api.service";
 import { Router } from "@angular/router";
-import { BookApiService } from "../../services/book-api.service";
 import { of } from "rxjs";
 import { By } from "@angular/platform-browser";
-import { TagButtonComponent } from "../../components/tag-component/tag-button.component";
+import { BookApiService } from "../../../shared/services/book-api/book-api.service";
+import { TagApiService } from "../../../shared/services/tag-api/tag-api.service";
 
 describe('AddBookComponent', () => {
   let component: AddBookComponent;

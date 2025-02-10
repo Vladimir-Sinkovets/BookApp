@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthApiService } from '../../services/auth.api-service';
+import { AuthService } from '../../../shared/services/auth/auth.service';
 
 @Component({
   selector: 'app-login-form',
@@ -13,7 +13,7 @@ import { AuthApiService } from '../../services/auth.api-service';
 export class LoginFormComponent {
   returnUrl: string;
   errorMessage = '';
-  constructor(private auth: AuthApiService, private router: Router, private route: ActivatedRoute) {
+  constructor(private auth: AuthService, private router: Router, private route: ActivatedRoute) {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
 }
   form = new FormGroup({

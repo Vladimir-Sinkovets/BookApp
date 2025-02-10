@@ -1,9 +1,9 @@
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { catchError, map, Observable, of, tap } from "rxjs";
-import { ApiResponse } from "../../shared/models/api-response.type";
-import { ITag } from "../models/tag.model";
-import { environment } from "../../../environments/environment";
+import { environment } from "../../../../environments/environment";
+import { ApiResponse } from "../../models/api-response.model";
+import { Tag } from "../../models/tag.model";
 
 @Injectable({
   providedIn: 'root',
@@ -24,8 +24,8 @@ export class TagApiService {
       ));
   }
 
-  addTag(tagName: string): Observable<ApiResponse<ITag>> {
-    return this.http.post<ITag>(`${environment.apiUrl}/api/tag/create`, { name: tagName })
+  addTag(tagName: string): Observable<ApiResponse<Tag>> {
+    return this.http.post<Tag>(`${environment.apiUrl}/api/tag/create`, { name: tagName })
       .pipe(
         map(response => {
           return {

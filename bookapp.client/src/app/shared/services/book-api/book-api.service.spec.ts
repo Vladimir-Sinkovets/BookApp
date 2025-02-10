@@ -1,10 +1,10 @@
 import { provideHttpClient } from "@angular/common/http";
 import { HttpTestingController, provideHttpClientTesting } from "@angular/common/http/testing";
 import { fakeAsync, TestBed } from "@angular/core/testing";
-import { environment } from "../../../environments/environment";
-import { ApiResponse } from "../../shared/models/api-response.type";
-import { IBook } from "../models/book.model";
 import { BookApiService } from "./book-api.service";
+import { environment } from "../../../../environments/environment";
+import { ApiResponse } from "../../models/api-response.model";
+import { Book } from "../../models/book.model";
 
 describe('BookApiService', () => {
   let service: BookApiService;
@@ -42,7 +42,7 @@ describe('BookApiService', () => {
 
   it('getPaginatedBooks() should return correct data', fakeAsync(() => {
     // arrange
-    let result: ApiResponse<{ books: IBook[], lastPage: number }> | undefined;
+    let result: ApiResponse<{ books: Book[], lastPage: number }> | undefined;
 
     const page = 1;
     const booksPerPage = 10;
@@ -87,7 +87,7 @@ describe('BookApiService', () => {
 
   it('getBook() should return correct data', fakeAsync(() => {
     // arrange
-    let result: ApiResponse<IBook> | undefined;
+    let result: ApiResponse<Book> | undefined;
 
     const id = 1;
 
@@ -126,7 +126,7 @@ describe('BookApiService', () => {
 
   it('addBook() should return correct response', () => {
     // arrange
-    let result: ApiResponse<IBook> | undefined;
+    let result: ApiResponse<Book> | undefined;
 
     const bookData = { title: 'test', author: 'test', description: 'test', fragment: 'test', tags: ['test'] };
     const responseData = { id: 1, title: 'test', author: 'test', description: 'test', fragment: 'test', tags: ['test'] };
@@ -148,7 +148,7 @@ describe('BookApiService', () => {
 
   it('addBook() should handle network error response', () => {
     // arrange
-    let result: ApiResponse<IBook> | undefined;
+    let result: ApiResponse<Book> | undefined;
 
     const bookData = { title: 'test', author: 'test', description: 'test', fragment: 'test', tags: ['test'] };
 
@@ -175,7 +175,7 @@ describe('BookApiService', () => {
   badStatusCases.forEach(value => {
     it(`addBook() should handle  ${value.statusText} response`, () => {
       // arrange
-      let result: ApiResponse<IBook> | undefined;
+      let result: ApiResponse<Book> | undefined;
       const bookData = { title: 'test', author: 'test', description: 'test', fragment: 'test', tags: ['test'] };
 
       // act
@@ -208,7 +208,7 @@ describe('BookApiService', () => {
 
   it('updateBook() should return correct response', () => {
     // arrange
-    let result: ApiResponse<IBook> | undefined;
+    let result: ApiResponse<Book> | undefined;
     const bookData = { id: 1, title: 'test', author: 'test', description: 'test', fragment: 'test', tags: ['test'] };
 
     // act
@@ -228,7 +228,7 @@ describe('BookApiService', () => {
 
   it('updateBook() should handle network error response', () => {
     // arrange
-    let result: ApiResponse<IBook> | undefined;
+    let result: ApiResponse<Book> | undefined;
     const bookData = { id: 1, title: 'test', author: 'test', description: 'test', fragment: 'test', tags: ['test'] };
 
     // act
@@ -249,7 +249,7 @@ describe('BookApiService', () => {
   badStatusCases.forEach(value => {
     it(`updateBook() should handle ${value.statusText} response`, () => {
       // arrange
-      let result: ApiResponse<IBook> | undefined;
+      let result: ApiResponse<Book> | undefined;
 
       const bookData = { id: 1, title: 'test', author: 'test', description: 'test', fragment: 'test', tags: ['test'] };
 

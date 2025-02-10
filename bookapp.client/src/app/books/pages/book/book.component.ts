@@ -1,10 +1,10 @@
 import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { AuthApiService } from "../../../auth/services/auth.api-service";
 import { TagButtonComponent } from "../../components/tag-component/tag-button.component";
-import { IBook } from "../../models/book.model";
-import { BookApiService } from "../../services/book-api.service";
+import { Book } from "../../../shared/models/book.model";
+import { BookApiService } from "../../../shared/services/book-api/book-api.service";
+import { AuthService } from "../../../shared/services/auth/auth.service";
 
 @Component({
   selector: 'app-book-page',
@@ -19,9 +19,9 @@ export class BookComponent implements OnInit {
 
   isAdmin: boolean;
 
-  book?: IBook = undefined;
+  book?: Book = undefined;
 
-  constructor(private route: ActivatedRoute, private router: Router, private bookApi: BookApiService, private auth: AuthApiService) {
+  constructor(private route: ActivatedRoute, private router: Router, private bookApi: BookApiService, private auth: AuthService) {
     this.isAdmin = this.auth.isAdmin();
   }
 

@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from "@angular/core";
-import { BookApiService } from "../../services/book-api.service";
-import { IBook } from "../../models/book.model";
 import { BookCardComponent } from "../book-card-component/book-card.component";
 import { Router } from "@angular/router";
 import { PaginationComponent } from "../pagination-component/pagination.component";
+import { BookApiService } from "../../../shared/services/book-api/book-api.service";
+import { Book } from "../../../shared/models/book.model";
 
 @Component({
   selector: 'app-books-list',
@@ -20,7 +20,7 @@ export class BooksListComponent implements OnChanges {
   @Output() pageChangedEvent = new EventEmitter<number>();
 
   errorMessage: string = '';
-  books: IBook[] = [];
+  books: Book[] = [];
   constructor(private bookApi: BookApiService, private router: Router) { }
 
   ngOnChanges(): void {

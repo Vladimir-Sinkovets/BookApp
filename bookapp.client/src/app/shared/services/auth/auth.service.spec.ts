@@ -1,12 +1,12 @@
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient } from '@angular/common/http';
-import { ApiResponse } from '../../shared/models/api-response.type';
-import { AuthApiService, TokenResponse } from './auth.api-service';
-import { environment } from '../../../environments/environment';
+import { AuthService, TokenResponse } from './auth.service';
+import { environment } from '../../../../environments/environment';
+import { ApiResponse } from '../../models/api-response.model';
 
-describe('AuthApiService', () => {
-  let service: AuthApiService;
+describe('AuthService', () => {
+  let service: AuthService;
   let httpTesting: HttpTestingController;
 
   const testData = { email: 'test@example.com', name: 'Test', password: 'password' };
@@ -18,13 +18,13 @@ describe('AuthApiService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        AuthApiService,
+        AuthService,
         provideHttpClient(),
         provideHttpClientTesting(),
       ]
     });
 
-    service = TestBed.inject(AuthApiService);
+    service = TestBed.inject(AuthService);
     httpTesting = TestBed.inject(HttpTestingController);
     localStorage.clear();
   });

@@ -1,9 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { TagButtonComponent } from "../../components/tag-component/tag-button.component";
-import { BookApiService } from "../../services/book-api.service";
-import { TagApiService } from "../../services/tag-api.service";
 import { ActivatedRoute, Router } from "@angular/router";
+import { BookApiService } from "../../../shared/services/book-api/book-api.service";
+import { TagApiService } from "../../../shared/services/tag-api/tag-api.service";
 
 @Component({
   selector: 'app-update-page',

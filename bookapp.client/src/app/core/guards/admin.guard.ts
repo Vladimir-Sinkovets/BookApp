@@ -1,9 +1,9 @@
 import { inject } from '@angular/core';
 import { CanActivateChildFn, Router } from '@angular/router';
-import { AuthApiService } from '../../auth/services/auth.api-service';
+import { AuthService } from '../../shared/services/auth/auth.service';
 
 export const adminGuard: CanActivateChildFn = (childRoute, state) => {
-  const isAdmin = inject(AuthApiService).isAdmin();
+  const isAdmin = inject(AuthService).isAdmin();
 
   if (isAdmin)
     return true;

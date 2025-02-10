@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { User } from "../../../shared/models/user.model";
-import { UsersApiService } from "../../../shared/services/users/usersApi.service";
+import { UsersApiService } from "../../../shared/services/users-api/users-api.service";
 import { PaginationComponent } from "../../../books/components/pagination-component/pagination.component";
 import { CommonModule } from "@angular/common";
 

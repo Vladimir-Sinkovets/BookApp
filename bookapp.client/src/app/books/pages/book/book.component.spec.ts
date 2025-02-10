@@ -1,15 +1,15 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ActivatedRoute, Router } from "@angular/router";
 import { BehaviorSubject, of } from "rxjs";
-import { AuthApiService } from "../../../auth/services/auth.api-service";
-import { BookApiService } from "../../services/book-api.service";
+import { Book } from "../../../shared/models/book.model";
+import { BookApiService } from "../../../shared/services/book-api/book-api.service";
 import { BookComponent } from "./book.component";
-import { IBook } from "../../models/book.model";
+import { AuthService } from "../../../shared/services/auth/auth.service";
 
 describe('BookComponent', () => {
   let component: BookComponent;
   let bookApi: jasmine.SpyObj<BookApiService>;
-  let authApi: jasmine.SpyObj<AuthApiService>;
+  let authApi: jasmine.SpyObj<AuthService>;
   let router: jasmine.SpyObj<Router>;
   let fixture: ComponentFixture<BookComponent>;
 
@@ -23,7 +23,7 @@ describe('BookComponent', () => {
     }
   };
 
-  const book: IBook = { id: 1, title: 'Book 1', author: 'Author 1', description: '', fragment: '', tags: ['test'] };
+  const book: Book = { id: 1, title: 'Book 1', author: 'Author 1', description: '', fragment: '', tags: ['test'] };
 
   const bookApiResponse = {
     isSucceeded: true,
@@ -46,7 +46,7 @@ describe('BookComponent', () => {
       providers: [
         BookComponent,
         { provide: BookApiService, useValue: bookApi, },
-        { provide: AuthApiService, useValue: authApi, },
+        { provide: AuthService, useValue: authApi, },
         { provide: Router, useValue: router, },
         { provide: ActivatedRoute, useValue: activatedRouteFake, },
       ]

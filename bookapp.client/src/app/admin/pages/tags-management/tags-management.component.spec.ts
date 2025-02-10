@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { TagsManagementComponent } from "./tags-management.component";
-import { TagApiService } from "../../../books/services/tag-api.service";
 import { of } from "rxjs";
+import { TagApiService } from "../../../shared/services/tag-api/tag-api.service";
 
 describe('TagsManagementComponent', () => {
   let component: TagsManagementComponent;

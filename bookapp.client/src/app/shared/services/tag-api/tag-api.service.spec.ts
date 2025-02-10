@@ -2,7 +2,7 @@ import { provideHttpClient } from "@angular/common/http";
 import { HttpTestingController, provideHttpClientTesting } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
 import { TagApiService } from "./tag-api.service";
-import { environment } from "../../../environments/environment";
+import { environment } from "../../../../environments/environment";
 
 describe('TagApiService', () => {
   let service: TagApiService;

@@ -1,9 +1,9 @@
 import { HttpClient, HttpResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, catchError, map, Observable, of, tap } from "rxjs";
-import { ApiResponse } from "../../shared/models/api-response.type";
 import { jwtDecode } from 'jwt-decode';
-import { environment } from "../../../environments/environment";
+import { environment } from "../../../../environments/environment";
+import { ApiResponse } from "../../models/api-response.model";
 
 export interface TokenResponse {
   accessToken: string,
@@ -13,7 +13,7 @@ export interface TokenResponse {
 @Injectable({
   providedIn: 'root',
 })
-export class AuthApiService {
+export class AuthService {
   private isLoggedInSubject = new BehaviorSubject<boolean>(this.isLoggedIn());
   isLoggedIn$ = this.isLoggedInSubject.asObservable();
 

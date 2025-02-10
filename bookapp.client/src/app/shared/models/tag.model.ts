@@ -1,4 +1,4 @@
-export interface ITag {
+export type Tag = {
   id: number,
   name: string,
-}
+};

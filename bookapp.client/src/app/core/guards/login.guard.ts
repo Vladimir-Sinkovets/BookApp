@@ -1,9 +1,9 @@
 import { inject } from '@angular/core';
 import { CanActivateChildFn, Router } from '@angular/router';
-import { AuthApiService } from '../../auth/services/auth.api-service';
+import { AuthService } from '../../shared/services/auth/auth.service';
 
 export const loginGuard: CanActivateChildFn = (childRoute, state) => {
-  const isLoggedIn = inject(AuthApiService).isLoggedIn();
+  const isLoggedIn = inject(AuthService).isLoggedIn();
 
 
   if (isLoggedIn) {

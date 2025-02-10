@@ -1,13 +1,13 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { Router, ActivatedRoute } from "@angular/router";
-import { AuthApiService } from "../../services/auth.api-service";
 import { RegisterFormComponent } from "./register-form.component";
 import { of } from "rxjs";
+import { AuthService } from "../../../shared/services/auth/auth.service";
 
 describe('RegisterFormComponent', () => {
   let component: RegisterFormComponent;
   let fixture: ComponentFixture<RegisterFormComponent>;
-  let authSpy: jasmine.SpyObj<AuthApiService>;
+  let authSpy: jasmine.SpyObj<AuthService>;
   let routerSpy: jasmine.SpyObj<Router>;
   let activatedRouteFake: { snapshot: { queryParams: { [key: string]: string } } } = {
     snapshot: {
@@ -24,7 +24,7 @@ describe('RegisterFormComponent', () => {
     TestBed.configureTestingModule({
       imports: [RegisterFormComponent],
       providers: [
-        { provide: AuthApiService, useValue: authSpy, },
+        { provide: AuthService, useValue: authSpy, },
         { provide: Router, useValue: routerSpy, },
         { provide: ActivatedRoute, useValue: activatedRouteFake, },
       ],
