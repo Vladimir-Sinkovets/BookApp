@@ -5,7 +5,7 @@ import { PaginationComponent } from "../../../books/components/pagination-compon
 import { CommonModule } from "@angular/common";
 
 @Component({
-  selector: 'users-list',
+  selector: 'app-users-list',
   templateUrl: 'users-list.component.html',
   styleUrl: 'users-list.component.css',
   imports: [PaginationComponent, CommonModule],

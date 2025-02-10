@@ -4,7 +4,7 @@ import { TagButtonComponent } from "../../../books/components/tag-component/tag-
 import { TagApiService } from "../../../shared/services/tag-api/tag-api.service";
 
 @Component({
-  selector: 'tags-management-component',
+  selector: 'app-tags-management-component',
   templateUrl: './tags-management.component.html',
   styleUrls: ['./tags-management.component.css', '../../../../styles/forms.css'],
   standalone: true,
