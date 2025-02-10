@@ -3,6 +3,6 @@
     public class PaginatedData<T>
     {
         public int LastPage {  get; set; }
-        public T Items {  get; set; }
+        public IEnumerable<T> Items {  get; set; }
     }
 }

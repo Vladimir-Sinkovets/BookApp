@@ -31,7 +31,7 @@ namespace BookApp.BLL.Services.BookServices
             return MapToBookData(bookEntry);
         }
 
-        public PaginatedData<IEnumerable<BookData>> GetPaginatedBooks(int page, int itemsPerPage)
+        public PaginatedData<BookData> GetPaginatedBooks(int page, int itemsPerPage)
         {
             var booksCount = unitOfWork.BooksRepository.GetAll().Count();
 
@@ -41,7 +41,7 @@ namespace BookApp.BLL.Services.BookServices
                 .Take(itemsPerPage)
                 .Select(b => MapToBookData(b));
 
-            return new PaginatedData<IEnumerable<BookData>>
+            return new PaginatedData<BookData>
             {
                 Items = books,
                 LastPage = (int)Math.Ceiling(booksCount / (decimal)itemsPerPage),

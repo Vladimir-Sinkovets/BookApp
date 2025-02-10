@@ -4,7 +4,7 @@ namespace BookApp.BLL.Services.UserServices
 {
     public interface IUserService
     {
-        IEnumerable<UserResponseData> GetPaginatedUsers(int page, int itemPerPage);
+        PaginatedData<UserResponseData> GetPaginatedUsers(int page, int itemsPerPage);
         UserResponseData GetUserById(int id);
     }
 }

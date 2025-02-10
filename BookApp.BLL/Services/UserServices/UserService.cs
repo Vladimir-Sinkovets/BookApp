@@ -17,12 +17,20 @@ namespace BookApp.BLL.Services.UserServices
             return MapToUserResponseData(user);
         }
 
-        public IEnumerable<UserResponseData> GetPaginatedUsers(int page, int itemsPerPage)
+        public PaginatedData<UserResponseData> GetPaginatedUsers(int page, int itemsPerPage)
         {
-            return unitOfWork.UsersRepository.GetAll()
+            var usersCount = unitOfWork.UsersRepository.GetAll().Count();
+
+            var users = unitOfWork.UsersRepository.GetAll()
                 .Skip(itemsPerPage * (page - 1))
                 .Take(itemsPerPage)
                 .Select(x => MapToUserResponseData(x));
+
+            return new PaginatedData<UserResponseData>
+            {
+                Items = users,
+                LastPage = (int)Math.Ceiling(usersCount / (decimal)itemsPerPage),
+            };
         }
 
         private static UserResponseData MapToUserResponseData(UserEntry user)

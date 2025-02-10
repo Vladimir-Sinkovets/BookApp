@@ -7,7 +7,7 @@ namespace BookApp.BLL.Services.BookServices
         Task<BookData> AddBookAsync(BookData book);
         Task DeleteAsync(int id);
         BookData GetBook(int id);
-        PaginatedData<IEnumerable<BookData>> GetPaginatedBooks(int page, int itemsPerPage);
+        PaginatedData<BookData> GetPaginatedBooks(int page, int itemsPerPage);
         Task<BookData> UpdateBookAsync(BookData book);
     }
 }

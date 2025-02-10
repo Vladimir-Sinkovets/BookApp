@@ -7,8 +7,4 @@
     <!-- Folder where production build objects will be placed -->
     <BuildOutputFolder>$(MSBuildProjectDirectory)\dist\bookapp.client\browser\</BuildOutputFolder>
   </PropertyGroup>
-  <ItemGroup>
-    <None Remove="src\app\admin\pages\NewFolder\**" />
-    <TypeScriptConfiguration Remove="src\app\admin\pages\NewFolder\**" />
-  </ItemGroup>
 </Project>

@@ -11,6 +11,7 @@ import { adminGuard } from './core/guards/admin.guard';
 import { AdminPanelComponent } from './admin/pages/admin-panel/admin-panel.component';
 import { BookSubMenuComponent } from './admin/pages/books-sub-menu/books-sub-menu.component';
 import { TagsManagementComponent } from './admin/pages/tags-management/tags-management.component';
+import { UsersList } from './admin/pages/users-list/users-list.component';
 
 const routes: Routes = [
   {
@@ -40,6 +41,7 @@ const routes: Routes = [
         children: [
           { path: 'books', component: BookSubMenuComponent, },
           { path: 'tags', component: TagsManagementComponent, },
+          { path: 'users', component: UsersList, },
         ]
       },
     ]

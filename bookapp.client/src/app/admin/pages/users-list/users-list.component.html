@@ -1,0 +1,18 @@
+<h3>Users</h3>
+
+<div *ngIf="isLoading">
+  Loading...
+</div>
+<div *ngIf="!isLoading" >
+  <div class="user-list">
+    @for (user of users; track user.id) {
+    <div class="user-item">
+      {{user.email}}
+    </div>
+    }
+  </div>
+
+  <div>
+    <app-pagination [page]="page" [lastPage]="lastPage" (buttonClickEvent)="paginationClickHandler($event)"></app-pagination>
+  </div>
+</div>
