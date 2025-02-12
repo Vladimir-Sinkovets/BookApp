@@ -3,21 +3,24 @@ using MediatR;
 
 namespace BookApp.UseCases.Handlers.Tags.Queries.GetById
 {
-    public class GetByIdQueryHandler(IUnitOfWork unitOfWork) : IRequestHandler<GetByIdQuery, GetByIdQueryResponse>
+    public class GetByIdQueryHandler(IUnitOfWork unitOfWork) : IRequestHandler<GetByIdQuery, Result<GetByIdQueryResponse>>
     {
-        public async Task<GetByIdQueryResponse> Handle(GetByIdQuery request, CancellationToken cancellationToken)
+        public async Task<Result<GetByIdQueryResponse>> Handle(GetByIdQuery request, CancellationToken cancellationToken)
         {
             var tagEntry = unitOfWork.TagsRepository
                 .FirstOrDefault(t => t.Id == request.Id);
 
-            //if (tagEntry == null)
-            //    throw new NotFoundException();
+            if (tagEntry == null)
+                Result<GetByIdQueryResponse>.Create(Status.NotFound, "Tag not found");
 
-            return new()
-            {
-                Id = tagEntry.Id,
-                Name = tagEntry.Name,
-            };
+            return Result<GetByIdQueryResponse>.Create(
+                Status.Success,
+                "Success",
+                new()
+                {
+                    Id = tagEntry.Id,
+                    Name = tagEntry.Name,
+                });
         }
     }
 }

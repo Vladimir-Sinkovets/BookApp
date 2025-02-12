@@ -2,7 +2,7 @@
 
 namespace BookApp.UseCases.Handlers.Tags.Queries.GetAllTags
 {
-    public class GetAllTagsQuery : IRequest<GetAllTagsQueryResponse>
+    public class GetAllTagsQuery : IRequest<Result<GetAllTagsQueryResponse>>
     {
     }
 }

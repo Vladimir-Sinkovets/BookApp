@@ -4,21 +4,24 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BookApp.UseCases.Handlers.Tags.Queries.GetAllTags
 {
-    public class GetAllTagsQueryHandler(IUnitOfWork unitOfWork) : IRequestHandler<GetAllTagsQuery, GetAllTagsQueryResponse>
+    public class GetAllTagsQueryHandler(IUnitOfWork unitOfWork) : IRequestHandler<GetAllTagsQuery, Result<GetAllTagsQueryResponse>>
     {
-        public async Task<GetAllTagsQueryResponse> Handle(GetAllTagsQuery request, CancellationToken cancellationToken)
+        public async Task<Result<GetAllTagsQueryResponse>> Handle(GetAllTagsQuery request, CancellationToken cancellationToken)
         {
-            return new()
-            {
-                Tags = await unitOfWork.TagsRepository.GetAll()
-                    .Take(100)
-                    .Select(t => new TagDataResponse()
-                        {
-                            Id = t.Id,
-                            Name = t.Name,
-                        })
-                    .ToListAsync(cancellationToken: cancellationToken)
-            };
+            return Result<GetAllTagsQueryResponse>.Create(
+                Status.Success,
+                "Success",
+                new()
+                {
+                    Tags = await unitOfWork.TagsRepository.GetAll()
+                        .Take(100)
+                        .Select(t => new TagDataResponse()
+                            {
+                                Id = t.Id,
+                                Name = t.Name,
+                            })
+                        .ToListAsync(cancellationToken: cancellationToken)
+                });
         }
     }
 }

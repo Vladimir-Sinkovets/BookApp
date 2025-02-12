@@ -4,12 +4,12 @@ using MediatR;
 
 namespace BookApp.UseCases.Handlers.Tags.Commands.CreateTag
 {
-    public class CreateTagCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<CreateTagCommand, CreateTagCommandResponse>
+    public class CreateTagCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<CreateTagCommand, Result<CreateTagCommandResponse>>
     {
-        public async Task<CreateTagCommandResponse> Handle(CreateTagCommand request, CancellationToken cancellationToken)
+        public async Task<Result<CreateTagCommandResponse>> Handle(CreateTagCommand request, CancellationToken cancellationToken)
         {
-            //if (unitOfWork.TagsRepository.FirstOrDefault(t => t.Name == tag.Name) != null)
-            //    throw new ContentAlreadyExistException();
+            if (unitOfWork.TagsRepository.FirstOrDefault(t => t.Name == request.Name) != null)
+                return Result<CreateTagCommandResponse>.Create(Status.Conflict, "Tag already exist");
 
             var tagEntry = new TagEntry()
             {
@@ -20,11 +20,14 @@ namespace BookApp.UseCases.Handlers.Tags.Commands.CreateTag
 
             await unitOfWork.SaveChangesAsync(new CancellationToken());
 
-            return new()
-            {
-                Id = tagEntry.Id,
-                Name = tagEntry.Name,
-            };
+            return Result<CreateTagCommandResponse>.Create(
+                Status.Success,
+                "Success",
+                new()
+                {
+                    Id = tagEntry.Id,
+                    Name = tagEntry.Name,
+                });
         }
     }
 }
