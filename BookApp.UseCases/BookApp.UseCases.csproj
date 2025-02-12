@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="MediatR" Version="12.4.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -15,8 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Handlers\Books\Commands\" />
-    <Folder Include="Handlers\Books\Queries\" />
+    <Folder Include="Helpers\" />
   </ItemGroup>
 
 </Project>
