@@ -1,4 +1,6 @@
-﻿namespace BookApp.Entities.Models
+﻿using BookApp.Entities.Emuns;
+
+namespace BookApp.Entities.Models
 {
     public class UserEntry
     {

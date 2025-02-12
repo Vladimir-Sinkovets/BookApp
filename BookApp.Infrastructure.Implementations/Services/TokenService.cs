@@ -1,11 +1,12 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using BookApp.DAL.Models;
+using BookApp.Entities.Models;
+using BookApp.Infrastructure.Interfaces.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
-namespace BookApp.BLL.Services.TokenServices
+namespace BookApp.Infrastructure.Implementations.Services
 {
     public class TokenService(IConfiguration config) : ITokenService
     {

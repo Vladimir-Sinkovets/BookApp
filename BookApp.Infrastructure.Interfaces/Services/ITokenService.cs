@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
-using BookApp.DAL.Models;
+using BookApp.Entities.Models;
 
-namespace BookApp.BLL.Services.TokenServices
+namespace BookApp.Infrastructure.Interfaces.Services
 {
     public interface ITokenService
     {

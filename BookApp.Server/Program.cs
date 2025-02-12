@@ -4,6 +4,7 @@ using BookApp.Server.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using BookApp.DataAccess.MsSql.DependencyInjection;
+using BookApp.Infrastructure.Implementations.DependencyInjection;
 
 namespace BookApp.Server
 {
@@ -20,7 +21,7 @@ namespace BookApp.Server
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
             builder.Services.AddMsSql(connectionString);
-            builder.Services.AddBLL();
+            builder.Services.AddServices();
 
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>

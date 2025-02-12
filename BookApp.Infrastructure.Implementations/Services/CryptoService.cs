@@ -1,7 +1,8 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
+using BookApp.Infrastructure.Interfaces.Services;
 
-namespace BookApp.BLL.Services.CryptoServices
+namespace BookApp.Infrastructure.Implementations.Services
 {
     public class CryptoService : ICryptoService
     {

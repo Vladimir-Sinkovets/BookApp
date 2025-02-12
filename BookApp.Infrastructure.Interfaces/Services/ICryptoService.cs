@@ -1,4 +1,4 @@
-﻿namespace BookApp.BLL.Services.CryptoServices
+﻿namespace BookApp.Infrastructure.Interfaces.Services
 {
     public interface ICryptoService
     {
