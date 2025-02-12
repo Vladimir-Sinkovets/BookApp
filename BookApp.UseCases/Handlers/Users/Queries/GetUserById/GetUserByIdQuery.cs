@@ -2,7 +2,7 @@
 
 namespace BookApp.UseCases.Handlers.Users.Queries.GetUserById
 {
-    public class GetUserByIdQuery : IRequest<GetUserByIdQueryResponse>
+    public class GetUserByIdQuery : IRequest<Result<GetUserByIdQueryResponse>>
     {
         public int Id { get; set; }
     }

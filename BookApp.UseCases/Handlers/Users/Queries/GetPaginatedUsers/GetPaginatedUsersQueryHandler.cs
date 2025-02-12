@@ -3,9 +3,9 @@ using MediatR;
 
 namespace BookApp.UseCases.Handlers.Users.Queries.GetPaginatedUsers
 {
-    public class GetPaginatedUsersQueryHandler(IUnitOfWork unitOfWork) : IRequestHandler<GetPaginatedUsersQuery, GetPaginatedUsersQueryResponse>
+    public class GetPaginatedUsersQueryHandler(IUnitOfWork unitOfWork) : IRequestHandler<GetPaginatedUsersQuery, Result<GetPaginatedUsersQueryResponse>>
     {
-        public async Task<GetPaginatedUsersQueryResponse> Handle(GetPaginatedUsersQuery request, CancellationToken cancellationToken)
+        public async Task<Result<GetPaginatedUsersQueryResponse>> Handle(GetPaginatedUsersQuery request, CancellationToken cancellationToken)
         {
             var usersCount = unitOfWork.UsersRepository.GetAll().Count();
 
@@ -19,11 +19,14 @@ namespace BookApp.UseCases.Handlers.Users.Queries.GetPaginatedUsers
                     Name = x.Name,
                 });
 
-            return new()
-            {
-                Items = users,
-                LastPage = (int)Math.Ceiling(usersCount / (decimal)request.ItemsPerPage),
-            };
+            return Result<GetPaginatedUsersQueryResponse>.Create(
+                Status.Success,
+                "Success",
+                new()
+                {
+                    Items = users,
+                    LastPage = (int)Math.Ceiling(usersCount / (decimal)request.ItemsPerPage),
+                });
         }
     }
 }
