@@ -32,7 +32,11 @@
     <ProjectReference Include="..\bookapp.client\bookapp.client.esproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="..\BookApp.DAL\BookApp.DAL.csproj" />
+    <ProjectReference Include="..\BookApp.DataAccess.MsSql\BookApp.DataAccess.MsSql.csproj" />
+    <ProjectReference Include="..\BookApp.Entities\BookApp.Entities.csproj" />
+    <ProjectReference Include="..\BookApp.Infrastructure.Implementations\BookApp.Infrastructure.Implementations.csproj" />
+    <ProjectReference Include="..\BookApp.Infrastructure.Interfaces\BookApp.Infrastructure.Interfaces.csproj" />
+    <ProjectReference Include="..\BookApp.UseCases\BookApp.UseCases.csproj" />
   </ItemGroup>
 
 </Project>
