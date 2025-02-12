@@ -15,8 +15,4 @@
     <ProjectReference Include="..\BookApp.Infrastructure.Interfaces\BookApp.Infrastructure.Interfaces.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Helpers\" />
-  </ItemGroup>
-
 </Project>
