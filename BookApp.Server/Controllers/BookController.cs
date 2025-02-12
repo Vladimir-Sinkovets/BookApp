@@ -14,13 +14,13 @@ namespace BookApp.Server.Controllers
     [ApiController]
     [Authorize]
     [Route("/api/[controller]")]
-    public class BookController(IMediator mediator) : Controller
+    public class BookController(IMediator mediator) : BaseController
     {
         [HttpPost]
         [Route("create")]
         public async Task<IActionResult> Create(CreateBook model)
         {
-            var book = await mediator.Send(new AddBookCommand()
+            var result = await mediator.Send(new AddBookCommand()
             {
                 Description = model.Description,
                 Author = model.Author,
@@ -29,39 +29,39 @@ namespace BookApp.Server.Controllers
                 Title = model.Title,
             });
 
-            return Created("", book);
+            return SendResult(result);
         }
 
         [HttpGet]
         [Route("get")]
         public async Task<IActionResult> Get(int id)
         {
-            var response = await mediator.Send(new GetBookQuery()
+            var result = await mediator.Send(new GetBookQuery()
             {
                 Id = id,
             });
 
-            return Ok(response);
+            return SendResult(result);
         }
 
         [HttpGet]
         [Route("all")]
         public async Task<IActionResult> All(int page, int itemsPerPage)
         {
-            var response = await mediator.Send(new GetPaginatedBookQuery()
+            var result = await mediator.Send(new GetPaginatedBookQuery()
             {
                 ItemsPerPage = itemsPerPage,
                 Page = page,
             });
 
-            return Ok(response);
+            return SendResult(result);
         }
 
         [HttpPut]
         [Route("update")]
         public async Task<IActionResult> Update(UpdateBook model)
         {
-            var response = await mediator.Send(new UpdateBookCommand()
+            var result = await mediator.Send(new UpdateBookCommand()
             {
                 Description = model.Description,
                 Author = model.Author,
@@ -71,19 +71,19 @@ namespace BookApp.Server.Controllers
                 Tags = model.Tags ?? [],
             });
 
-            return Ok(response);
+            return SendResult(result);
         }
 
         [HttpDelete]
         [Route("delete")]
         public async Task<IActionResult> Delete(int id)
         {
-            await mediator.Send(new DeleteBookCommand()
+            var result = await mediator.Send(new DeleteBookCommand()
             {
                 Id = id,
             });
 
-            return NoContent();
+            return SendResult(result);
         }
     }
 }

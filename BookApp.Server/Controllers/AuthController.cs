@@ -9,45 +9,45 @@ namespace BookApp.Server.Controllers
 {
     [ApiController]
     [Route("/api/[controller]")]
-    public class AuthController(IMediator mediator) : Controller
+    public class AuthController(IMediator mediator) : BaseController
     {
         [HttpPost]
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] RegisterUser model)
         {
-            var response = await mediator.Send(new RegisterCommand()
+            var result = await mediator.Send(new RegisterCommand()
             {
                 Email = model.Email,
                 Password = model.Password,
                 Name = model.Name,
             });
 
-            return Ok(response);
+            return SendResult(result);
         }
 
         [HttpPost]
         [Route("login")]
         public async Task<IActionResult> Login(LoginUser model)
         {
-            var response = await mediator.Send(new LoginQuery()
+            var result = await mediator.Send(new LoginQuery()
             {
                 Email = model.Email,
                 Password = model.Password,
             });
 
-            return Ok(response);
+            return SendResult(result);
         }
 
         [HttpGet]
         [Route("refresh")]
         public async Task<IActionResult> RefreshAsync(string token)
         {
-            var response = await mediator.Send(new RefreshTokenCommand()
+            var result = await mediator.Send(new RefreshTokenCommand()
             {
                 Token = token,
             });
 
-            return Ok(response);
+            return SendResult(result);
         }
     }
 }

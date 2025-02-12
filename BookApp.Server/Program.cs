@@ -1,10 +1,9 @@
 using System.Text;
 using BookApp.BLL.DependencyInjection;
-using BookApp.Server.Middleware;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using BookApp.DataAccess.MsSql.DependencyInjection;
 using BookApp.Infrastructure.Implementations.DependencyInjection;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 namespace BookApp.Server
 {
@@ -51,8 +50,6 @@ namespace BookApp.Server
             });
 
             var app = builder.Build();
-
-            app.UseMiddleware<ServerExceptionHandlerMiddleware>();
 
             app.UseDefaultFiles();
             app.MapStaticAssets();

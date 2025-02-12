@@ -12,51 +12,51 @@ namespace BookApp.Server.Controllers
     [ApiController]
     [Authorize]
     [Route("api/[controller]")]
-    public class TagController(IMediator mediator) : Controller
+    public class TagController(IMediator mediator) : BaseController
     {
         [HttpPost]
         [Route("create")]
         public async Task<IActionResult> Create(CreateTag model)
         {
-            var response = await mediator.Send(new CreateTagCommand()
+            var result = await mediator.Send(new CreateTagCommand()
             {
                 Name = model.Name,
             });
 
-            return Created("", response);
+            return SendResult(result);
         }
 
         [HttpGet]
         [Route("get")]
         public async Task<IActionResult> Get(int id)
         {
-            var response = mediator.Send(new GetByIdQuery()
+            var result = await mediator.Send(new GetByIdQuery()
             {
                 Id = id,
             });
 
-            return Ok(response);
+            return SendResult(result);
         }
 
         [HttpGet]
         [Route("all")]
         public async Task<IActionResult> All()
         {
-            var response = await mediator.Send(new GetAllTagsQuery());
+            var result = await mediator.Send(new GetAllTagsQuery());
 
-            return Ok(response.Tags);
+            return SendResult(result);
         }
 
         [HttpDelete]
         [Route("delete")]
         public async Task<IActionResult> Delete(string name)
         {
-            await mediator.Send(new DeleteTagCommand()
+            var result = await mediator.Send(new DeleteTagCommand()
             {
                 Name = name,
             });
 
-            return NoContent();
+            return SendResult(result);
         }
     }
 }

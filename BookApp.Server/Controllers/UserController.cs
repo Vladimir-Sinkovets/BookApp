@@ -9,31 +9,31 @@ namespace BookApp.Server.Controllers
     [ApiController]
     [Authorize]
     [Route("api/[controller]")]
-    public class UserController(IMediator mediator) : Controller
+    public class UserController(IMediator mediator) : BaseController
     {
         [HttpGet]
         [Route("get")]
         public async Task<IActionResult> GetAsync(int id)
         {
-            var response = await mediator.Send(new GetUserByIdQuery()
+            var result = await mediator.Send(new GetUserByIdQuery()
             {
                 Id = id,
             });
 
-            return Ok(response);
+            return SendResult(result);
         }
 
         [HttpGet]
         [Route("all")]
         public async Task<IActionResult> All(int page, int itemsPerPage)
         {
-            var response = await mediator.Send(new GetPaginatedUsersQuery()
+            var result = await mediator.Send(new GetPaginatedUsersQuery()
             {
                 ItemsPerPage = itemsPerPage,
                 Page = page,
             });
 
-            return Ok(response);
+            return SendResult(result);
         }
     }
 }
