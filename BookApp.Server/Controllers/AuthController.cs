@@ -1,18 +1,21 @@
-﻿using BookApp.BLL.Services.AuthServices;
-using BookApp.Server.Models;
+﻿using BookApp.Server.Models;
+using BookApp.UseCases.Handlers.Auth.Commands.RefreshToken;
+using BookApp.UseCases.Handlers.Auth.Commands.Register;
+using BookApp.UseCases.Handlers.Auth.Queries.Login;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookApp.Server.Controllers
 {
     [ApiController]
     [Route("/api/[controller]")]
-    public class AuthController(IAuthService authService) : Controller
+    public class AuthController(IMediator mediator) : Controller
     {
         [HttpPost]
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] RegisterUser model)
         {
-            var response = await authService.RegisterUserAsync(new()
+            var response = await mediator.Send(new RegisterCommand()
             {
                 Email = model.Email,
                 Password = model.Password,
@@ -24,9 +27,9 @@ namespace BookApp.Server.Controllers
 
         [HttpPost]
         [Route("login")]
-        public IActionResult Login(LoginUser model)
+        public async Task<IActionResult> Login(LoginUser model)
         {
-            var response = authService.LoginUser(new()
+            var response = await mediator.Send(new LoginQuery()
             {
                 Email = model.Email,
                 Password = model.Password,
@@ -37,9 +40,12 @@ namespace BookApp.Server.Controllers
 
         [HttpGet]
         [Route("refresh")]
-        public IActionResult Refresh(string token)
+        public async Task<IActionResult> RefreshAsync(string token)
         {
-            var response = authService.RefreshToken(token);
+            var response = await mediator.Send(new RefreshTokenCommand()
+            {
+                Token = token,
+            });
 
             return Ok(response);
         }

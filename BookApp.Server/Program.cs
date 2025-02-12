@@ -22,6 +22,7 @@ namespace BookApp.Server
 
             builder.Services.AddMsSql(connectionString);
             builder.Services.AddServices();
+            builder.Services.AddUseCases();
 
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
