@@ -2,7 +2,7 @@
 
 namespace BookApp.UseCases.Handlers.Books.Commands.AddBook
 {
-    public class AddBookCommand : IRequest<AddBookCommandResponse>
+    public class AddBookCommand : IRequest<Result<AddBookCommandResponse>>
     {
         public string Title { get; set; }
         public string Author { get; set; }

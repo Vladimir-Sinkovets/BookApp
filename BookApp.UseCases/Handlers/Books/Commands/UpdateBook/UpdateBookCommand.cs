@@ -2,7 +2,7 @@
 
 namespace BookApp.UseCases.Handlers.Books.Commands.UpdateBook
 {
-    public class UpdateBookCommand : IRequest<UpdateBookCommandResponse>
+    public class UpdateBookCommand : IRequest<Result<UpdateBookCommandResponse>>
     {
         public int Id { get; set; }
         public string Title { get; set; }

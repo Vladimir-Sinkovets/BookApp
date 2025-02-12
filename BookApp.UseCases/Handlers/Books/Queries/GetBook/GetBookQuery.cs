@@ -2,7 +2,7 @@
 
 namespace BookApp.UseCases.Handlers.Books.Queries.GetBook
 {
-    public class GetBookQuery : IRequest<GetBookQueryResponse>
+    public class GetBookQuery : IRequest<Result<GetBookQueryResponse>>
     {
         public int Id { get; set; }
     }

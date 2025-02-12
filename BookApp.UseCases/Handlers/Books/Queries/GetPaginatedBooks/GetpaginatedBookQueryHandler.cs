@@ -1,13 +1,12 @@
-﻿using BookApp.Entities.Models;
-using BookApp.Infrastructure.Interfaces.Repositories;
+﻿using BookApp.Infrastructure.Interfaces.Repositories;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookApp.UseCases.Handlers.Books.Queries.GetPaginatedBooks
 {
-    public class GetpaginatedBookQueryHandler(IUnitOfWork unitOfWork) : IRequestHandler<GetPaginatedBookQuery, GetpaginatedBookQueryResponse>
+    public class GetpaginatedBookQueryHandler(IUnitOfWork unitOfWork) : IRequestHandler<GetPaginatedBookQuery, Result<GetpaginatedBookQueryResponse>>
     {
-        public async Task<GetpaginatedBookQueryResponse> Handle(GetPaginatedBookQuery request, CancellationToken cancellationToken)
+        public async Task<Result<GetpaginatedBookQueryResponse>> Handle(GetPaginatedBookQuery request, CancellationToken cancellationToken)
         {
             var booksCount = unitOfWork.BooksRepository.GetAll().Count();
 
@@ -23,11 +22,14 @@ namespace BookApp.UseCases.Handlers.Books.Queries.GetPaginatedBooks
                     Tags = b.Tags.Select(bookEntry => bookEntry.Name).ToList()
                 });
 
-            return new()
-            {
-                Items = books,
-                LastPage = (int)Math.Ceiling(booksCount / (decimal)request.ItemsPerPage),
-            };
+            return Result < GetpaginatedBookQueryResponse >.Create(
+                Status.Success,
+                "Success",
+                new()
+                {
+                    Items = books,
+                    LastPage = (int)Math.Ceiling(booksCount / (decimal)request.ItemsPerPage),
+                });
         }
     }
 }
