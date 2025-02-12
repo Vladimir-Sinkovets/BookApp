@@ -7,14 +7,14 @@ namespace BookApp.UseCases.Handlers.Auth.Commands.RefreshToken
 {
     public class RefreshTokenCommandHandler(
         IUnitOfWork unitOfWork,
-        ITokenService tokenService) : IRequestHandler<RefreshTokenCommand, RefreshTokenCommandResponse>
+        ITokenService tokenService) : IRequestHandler<RefreshTokenCommand, Result<RefreshTokenCommandResponse>>
     {
-        public async Task<RefreshTokenCommandResponse> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
+        public async Task<Result<RefreshTokenCommandResponse>> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
         {
             var principal = tokenService.ValidateRefreshToken(request.Token);
 
-            //if (principal == null)
-            //    throw new BadRequestException();
+            if (principal == null)
+                return Result<RefreshTokenCommandResponse>.Create(Status.BadData, "Wrong token");
 
             var userId = int.Parse(principal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
 
@@ -23,11 +23,14 @@ namespace BookApp.UseCases.Handlers.Auth.Commands.RefreshToken
             //if (user == null)
             //    throw new BadRequestException();
 
-            return new()
-            {
-                AccessToken = tokenService.GenerateAccessJwt(user),
-                RefreshToken = tokenService.GenerateRefreshJwt(user),
-            };
+            return Result<RefreshTokenCommandResponse>.Create(
+                Status.Success,
+                "Success",
+                new()
+                {
+                    AccessToken = tokenService.GenerateAccessJwt(user),
+                    RefreshToken = tokenService.GenerateRefreshJwt(user),
+                });
         }
     }
 }
