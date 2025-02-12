@@ -1,5 +1,4 @@
-﻿using BookApp.Entities.Models;
-using BookApp.Infrastructure.Interfaces.Repositories;
+﻿using BookApp.Infrastructure.Interfaces.Repositories;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,9 +21,12 @@ namespace BookApp.UseCases.Handlers.Books.Commands.UpdateBook
             bookEntry.Description = request.Description;
 
             bookEntry.Tags.Clear();
-            bookEntry.Tags = await GetTagsAsync(request.Tags);
+            if (request.Tags != null)
+                bookEntry.Tags = await unitOfWork.TagsRepository.GetAll()
+                    .Where(t => request.Tags.Contains(t.Name))
+                    .ToListAsync(cancellationToken);
 
-            await unitOfWork.SaveChangesAsync(new CancellationToken());
+            await unitOfWork.SaveChangesAsync(cancellationToken);
 
             return Result<UpdateBookCommandResponse>.Create(
                 Status.Success,
@@ -38,13 +40,6 @@ namespace BookApp.UseCases.Handlers.Books.Commands.UpdateBook
                     Fragment = bookEntry.Fragment,
                     Tags = bookEntry.Tags?.Select(bookEntry => bookEntry.Name).ToList()
                 });
-        }
-
-        private async Task<List<TagEntry>> GetTagsAsync(List<string> tags)
-        {
-            return await unitOfWork.TagsRepository.GetAll()
-                .Where(t => tags.Contains(t.Name))
-                .ToListAsync();
         }
     }
 }

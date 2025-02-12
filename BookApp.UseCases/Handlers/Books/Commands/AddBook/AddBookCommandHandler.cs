@@ -1,6 +1,7 @@
 ﻿using BookApp.Entities.Models;
 using BookApp.Infrastructure.Interfaces.Repositories;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookApp.UseCases.Handlers.Books.Commands.AddBook
 {
@@ -18,12 +19,14 @@ namespace BookApp.UseCases.Handlers.Books.Commands.AddBook
 
             unitOfWork.BooksRepository.Add(bookEntry);
 
-            await unitOfWork.SaveChangesAsync(new CancellationToken());
+            await unitOfWork.SaveChangesAsync(cancellationToken);
 
             if (request.Tags != null)
-                bookEntry.Tags = GetTagsAsync(request.Tags);
+                bookEntry.Tags = await unitOfWork.TagsRepository.GetAll()
+                    .Where(t => request.Tags.Contains(t.Name))
+                    .ToListAsync(cancellationToken);
 
-            await unitOfWork.SaveChangesAsync(new CancellationToken());
+            await unitOfWork.SaveChangesAsync(cancellationToken);
 
             return Result<AddBookCommandResponse>.Create(
                 Status.Success, 
@@ -37,13 +40,6 @@ namespace BookApp.UseCases.Handlers.Books.Commands.AddBook
                     Fragment = bookEntry.Fragment,
                     Tags = bookEntry.Tags?.Select(bookEntry => bookEntry.Name).ToList()
                 });
-        }
-
-        private ICollection<TagEntry> GetTagsAsync(List<string> tags) // extract
-        {
-            return unitOfWork.TagsRepository.GetAll()
-                .Where(t => tags.Contains(t.Name))
-                .ToList();
         }
     }
 }

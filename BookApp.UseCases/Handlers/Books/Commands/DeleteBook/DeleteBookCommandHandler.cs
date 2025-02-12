@@ -9,7 +9,7 @@ namespace BookApp.UseCases.Handlers.Books.Commands.DeleteBook
         {
             unitOfWork.BooksRepository.Remove(b => b.Id == request.Id);
 
-            await unitOfWork.SaveChangesAsync(new CancellationToken());
+            await unitOfWork.SaveChangesAsync(cancellationToken);
 
             return Result<DeleteBookCommandResponse>.Create(Status.Success, "Success");
         }

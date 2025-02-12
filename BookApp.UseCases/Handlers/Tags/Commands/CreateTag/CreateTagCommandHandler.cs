@@ -18,7 +18,7 @@ namespace BookApp.UseCases.Handlers.Tags.Commands.CreateTag
 
             unitOfWork.TagsRepository.Add(tagEntry);
 
-            await unitOfWork.SaveChangesAsync(new CancellationToken());
+            await unitOfWork.SaveChangesAsync(cancellationToken);
 
             return Result<CreateTagCommandResponse>.Create(
                 Status.Success,

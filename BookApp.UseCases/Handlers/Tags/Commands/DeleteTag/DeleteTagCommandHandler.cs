@@ -9,7 +9,7 @@ namespace BookApp.UseCases.Handlers.Tags.Commands.DeleteTag
         {
             unitOfWork.TagsRepository.Remove(t => t.Name == request.Name);
 
-            await unitOfWork.SaveChangesAsync(new CancellationToken());
+            await unitOfWork.SaveChangesAsync(cancellationToken);
 
             return Result<DeleteTagCommandResponse>.Create(Status.Success, "Tag successfully deleted");
         }

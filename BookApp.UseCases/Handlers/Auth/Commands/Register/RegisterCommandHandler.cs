@@ -26,7 +26,7 @@ namespace BookApp.UseCases.Handlers.Auth.Commands.Register
 
             unitOfWork.UsersRepository.Add(user);
 
-            await unitOfWork.SaveChangesAsync(new CancellationToken());
+            await unitOfWork.SaveChangesAsync(cancellationToken);
 
             return Result<RegisterCommandResponse>.Create(
                 Status.Success,
