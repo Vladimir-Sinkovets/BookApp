@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113 d17.12
+VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookApp.Server", "BookApp.Server\BookApp.Server.csproj", "{FAA2763A-F1E0-4358-9D18-8A755C4F8F6B}"
 EndProject
@@ -10,6 +10,22 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookApp.BLL", "BookApp.BLL\BookApp.BLL.csproj", "{91459B63-7BC2-4E03-92B6-325A11A35BA7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookApp.DAL", "BookApp.DAL\BookApp.DAL.csproj", "{E7082AA2-09A3-4B26-A560-5F90C70D3FC5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Entities", "Entities", "{01657342-822F-4C90-90CC-D62E7A23BDCE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frameworks", "Frameworks", "{9BB812DF-3069-4145-AB1E-A174C7035A46}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UseCases", "UseCases", "{A26DE411-031B-45BF-9A6B-E409D44128C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookApp.Entities", "BookApp.Entities\BookApp.Entities.csproj", "{553A05A5-0445-47AE-A97E-8793C1A92FD7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookApp.UseCases", "BookApp.UseCases\BookApp.UseCases.csproj", "{73C3F957-5AB9-4320-B535-2F776BFA4755}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookApp.Infrastructure.Implementations", "BookApp.Infrastructure.Implementations\BookApp.Infrastructure.Implementations.csproj", "{AB2593C2-BE5E-4381-80AF-149111C9EC1E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookApp.Infrastructure.Interfaces", "BookApp.Infrastructure.Interfaces\BookApp.Infrastructure.Interfaces.csproj", "{D04FE80B-6C77-4C9F-8F27-1704FDA9C54E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookApp.DataAccess.MsSql", "BookApp.DataAccess.MsSql\BookApp.DataAccess.MsSql.csproj", "{B295129B-6483-45C1-958C-AF7CCAAA1BAD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,8 +51,36 @@ Global
 		{E7082AA2-09A3-4B26-A560-5F90C70D3FC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7082AA2-09A3-4B26-A560-5F90C70D3FC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E7082AA2-09A3-4B26-A560-5F90C70D3FC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{553A05A5-0445-47AE-A97E-8793C1A92FD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{553A05A5-0445-47AE-A97E-8793C1A92FD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{553A05A5-0445-47AE-A97E-8793C1A92FD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{553A05A5-0445-47AE-A97E-8793C1A92FD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73C3F957-5AB9-4320-B535-2F776BFA4755}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73C3F957-5AB9-4320-B535-2F776BFA4755}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73C3F957-5AB9-4320-B535-2F776BFA4755}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73C3F957-5AB9-4320-B535-2F776BFA4755}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB2593C2-BE5E-4381-80AF-149111C9EC1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB2593C2-BE5E-4381-80AF-149111C9EC1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB2593C2-BE5E-4381-80AF-149111C9EC1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB2593C2-BE5E-4381-80AF-149111C9EC1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D04FE80B-6C77-4C9F-8F27-1704FDA9C54E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D04FE80B-6C77-4C9F-8F27-1704FDA9C54E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D04FE80B-6C77-4C9F-8F27-1704FDA9C54E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D04FE80B-6C77-4C9F-8F27-1704FDA9C54E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B295129B-6483-45C1-958C-AF7CCAAA1BAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B295129B-6483-45C1-958C-AF7CCAAA1BAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B295129B-6483-45C1-958C-AF7CCAAA1BAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B295129B-6483-45C1-958C-AF7CCAAA1BAD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FAA2763A-F1E0-4358-9D18-8A755C4F8F6B} = {9BB812DF-3069-4145-AB1E-A174C7035A46}
+		{553A05A5-0445-47AE-A97E-8793C1A92FD7} = {01657342-822F-4C90-90CC-D62E7A23BDCE}
+		{73C3F957-5AB9-4320-B535-2F776BFA4755} = {A26DE411-031B-45BF-9A6B-E409D44128C2}
+		{AB2593C2-BE5E-4381-80AF-149111C9EC1E} = {9BB812DF-3069-4145-AB1E-A174C7035A46}
+		{D04FE80B-6C77-4C9F-8F27-1704FDA9C54E} = {A26DE411-031B-45BF-9A6B-E409D44128C2}
+		{B295129B-6483-45C1-958C-AF7CCAAA1BAD} = {9BB812DF-3069-4145-AB1E-A174C7035A46}
 	EndGlobalSection
 EndGlobal
