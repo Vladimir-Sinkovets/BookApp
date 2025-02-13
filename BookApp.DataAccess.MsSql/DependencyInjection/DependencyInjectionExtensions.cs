@@ -7,7 +7,7 @@ namespace BookApp.DataAccess.MsSql.DependencyInjection
 {
     public static class DependencyInjectionExtensions
     {
-        public static IServiceCollection AddMsSql(this IServiceCollection services, string connectionString)
+        public static IServiceCollection AddSqlServer(this IServiceCollection services, string connectionString)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));

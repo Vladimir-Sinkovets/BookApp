@@ -39,7 +39,7 @@ namespace BookApp.Server
 
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-            builder.Services.AddMsSql(connectionString);
+            builder.Services.AddSqlServer(connectionString);
             builder.Services.AddServices();
             builder.Services.AddUseCases();
 
