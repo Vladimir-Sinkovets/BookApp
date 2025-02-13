@@ -1,18 +1,23 @@
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient } from '@angular/common/http';
-import { AuthService, TokenResponse } from './auth.service';
 import { environment } from '../../../../environments/environment';
 import { ApiResponse } from '../../models/api-response.model';
+import { TokenResponse } from '../../models/token-response.model';
+import { AuthService } from './auth.service';
 
 describe('AuthService', () => {
   let service: AuthService;
   let httpTesting: HttpTestingController;
 
   const testData = { email: 'test@example.com', name: 'Test', password: 'password' };
-  const fakeResponse: TokenResponse = {
-    accessToken: 'accessToken',
-    refreshToken: 'refreshToken'
+  const fakeSuccessResponse = {
+    isSucceeded: true,
+    message: 'Success',
+    data: {
+      accessToken: 'accessToken',
+      refreshToken: 'refreshToken'
+    }
   };
 
   beforeEach(() => {
@@ -58,7 +63,7 @@ describe('AuthService', () => {
     service.register(testData).subscribe(res => result = res);
 
     const req = httpTesting.expectOne(`${environment.apiUrl}/api/auth/register`);
-    req.flush(fakeResponse, { status: 200, statusText: 'OK' });
+    req.flush(fakeSuccessResponse, { status: 200, statusText: 'OK' });
     tick();
 
     // assert
@@ -68,7 +73,7 @@ describe('AuthService', () => {
     expect(result).toEqual({
       isSucceeded: true,
       message: 'Success',
-      data: fakeResponse
+      data: fakeSuccessResponse.data
     });
   }));
 
@@ -83,12 +88,15 @@ describe('AuthService', () => {
     it(`register() should handle ${status} error`, fakeAsync(() => {
       // arrange
       let result: ApiResponse<TokenResponse> | undefined;
-
+      const errorBody = {
+        isSucceeded: true,
+        message: expectedMessage,
+      };
       // act
       service.register(testData).subscribe(res => result = res);
 
       const req = httpTesting.expectOne(`${environment.apiUrl}/api/auth/register`);
-      req.flush({}, { status, statusText: 'Error' });
+      req.flush(errorBody, { status, statusText: 'Error' });
       tick();
 
       // assert
@@ -125,7 +133,7 @@ describe('AuthService', () => {
 
     const req = httpTesting.expectOne(`${environment.apiUrl}/api/auth/login`);
 
-    req.flush(fakeResponse, { status: 200, statusText: 'OK' });
+    req.flush(fakeSuccessResponse, { status: 200, statusText: 'OK' });
     tick();
 
     // assert
@@ -135,7 +143,7 @@ describe('AuthService', () => {
     expect(result).toEqual({
       isSucceeded: true,
       message: 'Success',
-      data: fakeResponse
+      data: fakeSuccessResponse.data
     });
   }));
 
@@ -149,12 +157,16 @@ describe('AuthService', () => {
     it(`login() should handle ${status} error`, fakeAsync(() => {
       // arrange
       let result: ApiResponse<TokenResponse> | undefined;
+      const errorBody = {
+        isSucceeded: true,
+        message: expectedMessage,
+      };
 
       // act
       service.login(testData).subscribe(res => result = res);
 
       const req = httpTesting.expectOne(`${environment.apiUrl}/api/auth/login`);
-      req.flush({}, { status, statusText: 'Error' });
+      req.flush(errorBody, { status, statusText: 'Error' });
       tick();
 
       // assert
@@ -196,7 +208,7 @@ describe('AuthService', () => {
     service.refreshAccessToken().subscribe(response => result = response);
     const req = httpTesting.expectOne('https://localhost:7085/api/auth/refresh?token=refreshToken');
 
-    req.flush(fakeResponse, { status: 200, statusText: 'OK' });
+    req.flush(fakeSuccessResponse, { status: 200, statusText: 'OK' });
     tick();
 
     // assert
@@ -218,7 +230,7 @@ describe('AuthService', () => {
     service.refreshAccessToken().subscribe();
     const req = httpTesting.expectOne('https://localhost:7085/api/auth/refresh?token=refreshToken');
 
-    req.flush(fakeResponse, { status: 200, statusText: 'OK' });
+    req.flush(fakeSuccessResponse, { status: 200, statusText: 'OK' });
     tick();
 
     // assert
@@ -236,12 +248,16 @@ describe('AuthService', () => {
       // arrange
       let result: ApiResponse<TokenResponse> | undefined;
       localStorage.setItem('refreshToken', 'refreshToken')
+      const errorBody = {
+        isSucceeded: true,
+        message: expectedMessage,
+      };
 
       // act
       service.refreshAccessToken().subscribe(response => result = response);
       const req = httpTesting.expectOne('https://localhost:7085/api/auth/refresh?token=refreshToken');
 
-      req.flush(fakeResponse, { status: status, statusText: '' });
+      req.flush(errorBody, { status: status, statusText: '' });
       tick();
       // assert
       expect(result).toEqual({

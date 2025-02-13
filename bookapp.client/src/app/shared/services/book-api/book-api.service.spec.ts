@@ -1,10 +1,10 @@
 import { provideHttpClient } from "@angular/common/http";
 import { HttpTestingController, provideHttpClientTesting } from "@angular/common/http/testing";
 import { fakeAsync, TestBed } from "@angular/core/testing";
-import { BookApiService } from "./book-api.service";
 import { environment } from "../../../../environments/environment";
 import { ApiResponse } from "../../models/api-response.model";
 import { Book } from "../../models/book.model";
+import { BookApiService } from "./book-api.service";
 
 describe('BookApiService', () => {
   let service: BookApiService;
@@ -48,10 +48,14 @@ describe('BookApiService', () => {
     const booksPerPage = 10;
 
     const responseData = {
-      items: [
-        { id: 1, title: 'test', author: 'test', description: 'test', fragment: 'test', tags: ['test'] },
-      ],
-      lastPage: 2,
+      isSucceeded: true,
+      message: 'success',
+      data: {
+        books: [
+          { id: 1, title: 'test', author: 'test', description: 'test', fragment: 'test', tags: ['test'] },
+        ],
+        lastPage: 2,
+      }
     };
 
     // act
@@ -66,7 +70,7 @@ describe('BookApiService', () => {
       isSucceeded: true,
       message: 'success',
       data: {
-        books: responseData.items,
+        books: responseData.data.books,
         lastPage: 2
       }
     });
@@ -91,7 +95,11 @@ describe('BookApiService', () => {
 
     const id = 1;
 
-    const responseData = { id: 1, title: 'test', author: 'test', description: 'test', fragment: 'test', tags: ['test'] };
+    const responseData = {
+      isSucceeded: true,
+      message: 'success',
+      data: { id: 1, title: 'test', author: 'test', description: 'test', fragment: 'test', tags: ['test'] },
+    };
 
     // act
     service.getBook(id)
@@ -101,24 +109,23 @@ describe('BookApiService', () => {
     req.flush(responseData, { status: 200, statusText: 'OK' })
 
     // assert
-    expect(result).toEqual({
-      isSucceeded: true,
-      message: 'success',
-      data: responseData,
-    });
+    expect(result).toEqual(responseData);
   }));
 
   it('addBook() should send post request', () => {
     // arrange
     const bookData = { title: 'test', author: 'test', description: 'test', fragment: 'test', tags: ['test'] };
-    const responseData = { id: 1, title: 'test', author: 'test', description: 'test', fragment: 'test', tags: ['test'] };
-
+    const responseData = {
+      isSucceeded: true,
+      message: 'success',
+      data: { id: 1, title: 'test', author: 'test', description: 'test', fragment: 'test', tags: ['test'] },
+    };
     // act
     service.addBook(bookData)
       .subscribe();
     const req = httpTesting.expectOne(`${environment.apiUrl}/api/book/create`);
 
-    req.flush(responseData, { status: 200, statusText: 'OK' });
+    req.flush(responseData, { status: 200, statusText: 'POST' });
 
     //assert
     expect(req.request.method).toEqual('POST');
@@ -129,7 +136,12 @@ describe('BookApiService', () => {
     let result: ApiResponse<Book> | undefined;
 
     const bookData = { title: 'test', author: 'test', description: 'test', fragment: 'test', tags: ['test'] };
-    const responseData = { id: 1, title: 'test', author: 'test', description: 'test', fragment: 'test', tags: ['test'] };
+
+    const responseData = {
+      isSucceeded: true,
+      message: 'success',
+      data: { id: 1, title: 'test', author: 'test', description: 'test', fragment: 'test', tags: ['test'] },
+    };
 
     // act
     service.addBook(bookData)
@@ -139,11 +151,7 @@ describe('BookApiService', () => {
     req.flush(responseData, { status: 200, statusText: 'OK' })
 
     // assert
-    expect(result).toEqual({
-      isSucceeded: true,
-      message: 'success',
-      data: responseData,
-    });
+    expect(result).toEqual(responseData);
   });
 
   it('addBook() should handle network error response', () => {
@@ -194,13 +202,19 @@ describe('BookApiService', () => {
   it('updateBook() should send put request', () => {
     // arrange
     const bookData = { id: 1, title: 'test', author: 'test', description: 'test', fragment: 'test', tags: ['test'] };
+    const responseData = {
+      isSucceeded: true,
+      message: 'success',
+      data: bookData,
+    };
 
     // act
     service.updateBook(bookData)
       .subscribe();
+
     const req = httpTesting.expectOne(`${environment.apiUrl}/api/book/update`);
 
-    req.flush(bookData, { status: 200, statusText: 'OK' })
+    req.flush(responseData, { status: 200, statusText: 'PUT' })
 
     //assert
     expect(req.request.method).toEqual('PUT');
@@ -210,13 +224,18 @@ describe('BookApiService', () => {
     // arrange
     let result: ApiResponse<Book> | undefined;
     const bookData = { id: 1, title: 'test', author: 'test', description: 'test', fragment: 'test', tags: ['test'] };
+    const responseData = {
+      isSucceeded: true,
+      message: 'success',
+      data: bookData,
+    };
 
     // act
     service.updateBook(bookData)
       .subscribe(response => result = response);
     const req = httpTesting.expectOne(`${environment.apiUrl}/api/book/update`);
 
-    req.flush(bookData, { status: 200, statusText: 'OK' })
+    req.flush(responseData, { status: 200, statusText: 'OK' })
 
     // assert
     expect(result).toEqual({

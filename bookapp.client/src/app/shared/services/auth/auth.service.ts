@@ -1,4 +1,4 @@
-import { HttpClient, HttpResponse } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse, HttpResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, catchError, map, Observable, of, tap } from "rxjs";
 import { jwtDecode } from 'jwt-decode';
@@ -26,8 +26,18 @@ export class AuthService {
             this.setTokens(response);
           }
         }),
+        catchError((error: HttpErrorResponse) => {
+          return of({
+            isSucceeded: false,
+            message: error.error.message ?? 'Unknown error',
+            data: undefined,
+          });
+        }),
         map(response => {
-          return response.body!;
+          if (response instanceof HttpResponse)
+            return response.body!;
+          else
+            return response;
         })
       );
   }
@@ -40,8 +50,18 @@ export class AuthService {
             this.setTokens(response);
           }
         }),
+        catchError((error: HttpErrorResponse) => {
+          return of({
+            isSucceeded: false,
+            message: error.error.message ?? 'Unknown error',
+            data: undefined,
+          });
+        }),
         map(response => {
-          return response.body!;
+          if (response instanceof HttpResponse)
+            return response.body!;
+          else
+            return response;
         })
       );
   }
@@ -56,8 +76,18 @@ export class AuthService {
             this.setTokens(response);
           }
         }),
+        catchError((error: HttpErrorResponse) => {
+          return of({
+            isSucceeded: false,
+            message: error.error.message ?? 'Unknown error',
+            data: undefined,
+          });
+        }),
         map(response => {
-          return response.body!;
+          if (response instanceof HttpResponse)
+            return response.body!;
+          else
+            return response;
         }));
   }
 

@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { map, Observable } from "rxjs";
+import { catchError, map, Observable, of } from "rxjs";
 import { environment } from "../../../../environments/environment";
 import { AddBook } from "../../models/add-book.model";
 import { ApiResponse } from "../../models/api-response.model";
@@ -35,6 +35,13 @@ export class BookApiService {
   addBook(data: AddBook): Observable<ApiResponse<Book>> {
     return this.http.post<ApiResponse<Book>>(`${environment.apiUrl}/api/book/create`, data)
       .pipe(
+        catchError(error => {
+          return of({
+            isSucceeded: false,
+            message: 'Unknown error',
+            data: undefined,
+          });
+        }),
         map(response => {
           return response
         }));
@@ -43,6 +50,13 @@ export class BookApiService {
   updateBook(data: Book): Observable<ApiResponse<Book>> {
     return this.http.put<ApiResponse<Book>>(`${environment.apiUrl}/api/book/update`, data)
       .pipe(
+        catchError(error => {
+          return of({
+            isSucceeded: false,
+            message: 'Unknown error',
+            data: undefined,
+          });
+        }),
         map(response => {
           return response
         }));

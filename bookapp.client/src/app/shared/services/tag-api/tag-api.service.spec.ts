@@ -37,11 +37,17 @@ describe('TagApiService', () => {
   it('getTags() should return tags', () => {
     // arrange
     const expectedTags = [  'test_0', 'test_1', 'test_2', ];
-    const tags = [
-      { id: 1, name: 'test_0', },
-      { id: 2, name: 'test_1', },
-      { id: 3, name: 'test_2', },
-    ];
+    const data = {
+      isSucceeded: true,
+      message: 'success',
+      data: {
+        tags: [
+          { id: 1, name: 'test_0', },
+          { id: 2, name: 'test_1', },
+          { id: 3, name: 'test_2', },
+        ]
+      }
+    };
     // act
     service.getTags()
       .subscribe(response => {
@@ -53,6 +59,6 @@ describe('TagApiService', () => {
 
     const req = httpController.expectOne(`${environment.apiUrl}/api/tag/all`);
 
-    req.flush(tags, { status: 200, statusText: 'OK' });
+    req.flush(data, { status: 200, statusText: 'OK' });
   });
 });
