@@ -43,6 +43,9 @@ namespace BookApp.Server
             builder.Services.AddServices();
             builder.Services.AddUseCases();
 
+            builder.Services.AddHealthChecks()
+                .AddSqlServer(connectionString);
+
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -88,6 +91,7 @@ namespace BookApp.Server
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.MapHealthChecks("health");
 
             app.MapControllers();
 
