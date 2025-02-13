@@ -20,8 +20,8 @@ namespace BookApp.UseCases.Handlers.Auth.Commands.RefreshToken
 
             var user = unitOfWork.UsersRepository.FirstOrDefault(u => userId == u.Id);
 
-            //if (user == null)
-            //    throw new BadRequestException();
+            if (user == null)
+                return Result<RefreshTokenCommandResponse>.Create(Status.NotFound, "User not found");
 
             return Result<RefreshTokenCommandResponse>.Create(
                 Status.Success,
