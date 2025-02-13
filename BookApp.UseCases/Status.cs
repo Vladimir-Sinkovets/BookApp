@@ -6,5 +6,6 @@
         NotFound,
         Conflict,
         BadData,
+        ServerError,
     }
 }

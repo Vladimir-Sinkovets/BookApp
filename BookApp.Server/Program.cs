@@ -2,7 +2,10 @@ using System.Text;
 using BookApp.BLL.DependencyInjection;
 using BookApp.DataAccess.MsSql.DependencyInjection;
 using BookApp.Infrastructure.Implementations.DependencyInjection;
+using BookApp.Server.Middleware;
+using BookApp.UseCases;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
 namespace BookApp.Server
@@ -14,7 +17,24 @@ namespace BookApp.Server
             var builder = WebApplication.CreateBuilder(args);
 
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers()
+                .ConfigureApiBehaviorOptions(options =>
+                {
+                    options.InvalidModelStateResponseFactory = context =>
+                    {
+                        var problemDetails = new
+                        {
+                            Status = Status.BadData,
+                            Message = "Validation Error",
+                        };
+
+                        return new BadRequestObjectResult(problemDetails)
+                        {
+                            ContentTypes = { "application/problem+json" }
+                        };
+                    };
+                });
+
             builder.Services.AddOpenApi();
 
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -51,6 +71,8 @@ namespace BookApp.Server
 
             var app = builder.Build();
 
+            app.UseMiddleware<ServerExceptionHandlerMiddleware>();
+            
             app.UseDefaultFiles();
             app.MapStaticAssets();
 
