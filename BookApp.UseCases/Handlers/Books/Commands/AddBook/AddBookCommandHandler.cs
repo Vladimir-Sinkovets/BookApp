@@ -2,13 +2,18 @@
 using BookApp.Infrastructure.Interfaces.Repositories;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace BookApp.UseCases.Handlers.Books.Commands.AddBook
 {
-    public class AddBookCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<AddBookCommand, Result<AddBookCommandResponse>>
+    public class AddBookCommandHandler(
+        IUnitOfWork unitOfWork,
+        ILogger<AddBookCommandHandler> logger) : IRequestHandler<AddBookCommand, Result<AddBookCommandResponse>>
     {
         public async Task<Result<AddBookCommandResponse>> Handle(AddBookCommand request, CancellationToken cancellationToken)
         {
+            logger.LogInformation("Attempting to add book with title: {title}", request.Title);
+
             var bookEntry = new BookEntry()
             {
                 Description = request.Description,
@@ -27,6 +32,8 @@ namespace BookApp.UseCases.Handlers.Books.Commands.AddBook
                     .ToListAsync(cancellationToken);
 
             await unitOfWork.SaveChangesAsync(cancellationToken);
+
+            logger.LogInformation("Book added with title: {title}", request.Title);
 
             return Result<AddBookCommandResponse>.Create(
                 Status.Success, 

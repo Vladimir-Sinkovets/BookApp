@@ -1,20 +1,30 @@
 ﻿using BookApp.Infrastructure.Interfaces.Repositories;
-using BookApp.UseCases.Handlers.Books.Commands.UpdateBook;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace BookApp.UseCases.Handlers.Books.Queries.GetBook
 {
-    public class GetBookQueryHandler(IUnitOfWork unitOfWork) : IRequestHandler<GetBookQuery, Result<GetBookQueryResponse>>
+    public class GetBookQueryHandler(
+        IUnitOfWork unitOfWork,
+        ILogger<GetBookQueryHandler> logger) : IRequestHandler<GetBookQuery, Result<GetBookQueryResponse>>
     {
         public async Task<Result<GetBookQueryResponse>> Handle(GetBookQuery request, CancellationToken cancellationToken)
         {
+            logger.LogInformation("Request a book by id: {id}", request.Id);
+
             var bookEntry = unitOfWork.BooksRepository.GetAll()
                 .Include(b => b.Tags)
                 .FirstOrDefault(b => b.Id == request.Id);
 
             if (bookEntry == null)
+            {
+                logger.LogInformation("Book not found with id: {id}", request.Id);
+
                 return Result<GetBookQueryResponse>.Create(Status.NotFound, "Book not found");
+            }
+
+            logger.LogInformation("Return book with id: {id}", request.Id);
 
             return Result<GetBookQueryResponse>.Create(
                 Status.Success,

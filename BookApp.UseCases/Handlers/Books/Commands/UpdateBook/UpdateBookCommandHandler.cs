@@ -1,19 +1,28 @@
 ﻿using BookApp.Infrastructure.Interfaces.Repositories;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace BookApp.UseCases.Handlers.Books.Commands.UpdateBook
 {
-    public class UpdateBookCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<UpdateBookCommand, Result<UpdateBookCommandResponse>>
+    public class UpdateBookCommandHandler(
+        IUnitOfWork unitOfWork,
+        ILogger<UpdateBookCommandHandler> logger) : IRequestHandler<UpdateBookCommand, Result<UpdateBookCommandResponse>>
     {
         public async Task<Result<UpdateBookCommandResponse>> Handle(UpdateBookCommand request, CancellationToken cancellationToken)
         {
+            logger.LogInformation("Attempting to update book with id: {id}", request.Id);
+
             var bookEntry = unitOfWork.BooksRepository.GetAll()
                 .Include(b => b.Tags)
                 .First(b => b.Id == request.Id);
 
             if (bookEntry == null)
+            {
+                logger.LogWarning("Book not found with id: {id}", request.Id);
+
                 return Result<UpdateBookCommandResponse>.Create(Status.NotFound, "Book not found");
+            }
 
             bookEntry.Title = request.Title;
             bookEntry.Fragment = request.Fragment;
@@ -27,6 +36,8 @@ namespace BookApp.UseCases.Handlers.Books.Commands.UpdateBook
                     .ToListAsync(cancellationToken);
 
             await unitOfWork.SaveChangesAsync(cancellationToken);
+
+            logger.LogInformation("Book updated with id: {id}", request.Id);
 
             return Result<UpdateBookCommandResponse>.Create(
                 Status.Success,

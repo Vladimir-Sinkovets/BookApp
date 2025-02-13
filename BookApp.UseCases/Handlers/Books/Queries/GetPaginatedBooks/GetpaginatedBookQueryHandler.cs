@@ -1,13 +1,18 @@
 ﻿using BookApp.Infrastructure.Interfaces.Repositories;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace BookApp.UseCases.Handlers.Books.Queries.GetPaginatedBooks
 {
-    public class GetpaginatedBookQueryHandler(IUnitOfWork unitOfWork) : IRequestHandler<GetPaginatedBookQuery, Result<GetpaginatedBookQueryResponse>>
+    public class GetPaginatedBookQueryHandler(
+        IUnitOfWork unitOfWork,
+        ILogger<GetPaginatedBookQueryHandler> logger) : IRequestHandler<GetPaginatedBookQuery, Result<GetpaginatedBookQueryResponse>>
     {
         public async Task<Result<GetpaginatedBookQueryResponse>> Handle(GetPaginatedBookQuery request, CancellationToken cancellationToken)
         {
+            logger.LogInformation("Request books");
+
             var booksCount = unitOfWork.BooksRepository.GetAll().Count();
 
             var books = unitOfWork.BooksRepository.GetAll()
