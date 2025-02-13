@@ -1,6 +1,6 @@
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { catchError, map, Observable, of, tap } from "rxjs";
+import { map, Observable } from "rxjs";
 import { environment } from "../../../../environments/environment";
 import { ApiResponse } from "../../models/api-response.model";
 import { Tag } from "../../models/tag.model";
@@ -12,51 +12,22 @@ export class TagApiService {
   constructor(private http: HttpClient) { }
 
   getTags(): Observable<ApiResponse<string[]>> {
-    return this.http.get<{ name: string, id: number }[]>(`${environment.apiUrl}/api/tag/all`)
+    return this.http.get<ApiResponse<{ tags:{ name: string, id: number }[] }>>(`${environment.apiUrl}/api/tag/all`)
       .pipe(
         map(response => {
           return {
-            isSucceeded: true,
-            message: 'success',
-            data: response.map(t => t.name),
+            isSucceeded: response.isSucceeded,
+            message: response.message,
+            data: response.data!.tags.map(t => t.name),
           }
         }
       ));
   }
 
   addTag(tagName: string): Observable<ApiResponse<Tag>> {
-    return this.http.post<Tag>(`${environment.apiUrl}/api/tag/create`, { name: tagName })
-      .pipe(
-        map(response => {
-          return {
-            isSucceeded: true,
-            message: 'Success',
-            data: response,
-          };
-        }),
-        catchError((error: HttpErrorResponse) => {
-          const message =
-            error.status === 409 ? 'Already exist' :
-              error.status === 500 ? 'Server error' : 'Unknown error';
-
-          return of({
-            isSucceeded: false,
-            message: message,
-            data: undefined,
-          });
-        })
-      );
+    return this.http.post<ApiResponse<Tag>>(`${environment.apiUrl}/api/tag/create`, { name: tagName });
   }
   deleteTag(tagName: string): Observable<ApiResponse<undefined>> {
-    return this.http.delete(`${environment.apiUrl}/api/tag/delete?name=${tagName}`)
-      .pipe(
-        map(response => {
-          return {
-            isSucceeded: true,
-            message: 'Success',
-            data: undefined,
-          }
-        })
-      );
+    return this.http.delete<ApiResponse<undefined>>(`${environment.apiUrl}/api/tag/delete?name=${tagName}`);
   }
 }

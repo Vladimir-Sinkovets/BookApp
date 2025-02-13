@@ -4,11 +4,7 @@ import { BehaviorSubject, catchError, map, Observable, of, tap } from "rxjs";
 import { jwtDecode } from 'jwt-decode';
 import { environment } from "../../../../environments/environment";
 import { ApiResponse } from "../../models/api-response.model";
-
-export interface TokenResponse {
-  accessToken: string,
-  refreshToken: string,
-}
+import { TokenResponse } from "../../models/token-response.model";
 
 @Injectable({
   providedIn: 'root',
@@ -23,57 +19,29 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   register(data: { email: string, name: string, password: string }): Observable<ApiResponse<TokenResponse>> {
-    return this.http.post<TokenResponse>(`${environment.apiUrl}/api/auth/register`, data, { observe: 'response' })
+    return this.http.post<ApiResponse<TokenResponse>>(`${environment.apiUrl}/api/auth/register`, data, { observe: 'response' })
       .pipe(
         tap(response => {
           if (response instanceof HttpResponse) {
             this.setTokens(response);
           }
         }),
-        catchError((error) => {
-          if (error.status == 400) {
-            return of({ isSucceeded: false, message: 'Wrong data', data: undefined });
-          } else if (error.status == 409) {
-            return of({ isSucceeded: false, message: 'User already exist', data: undefined });
-          } else if (error.status == 500) {
-            return of({ isSucceeded: false, message: 'Server error', data: undefined });
-          }
-          return of({ isSucceeded: false, message: 'Unknown error', data: undefined });
-        }),
         map(response => {
-          if (response instanceof HttpResponse) {
-            return { isSucceeded: true, message: 'Success', data: response.body ?? undefined };
-          } else {
-            return response;
-          }
+          return response.body!;
         })
       );
   }
 
   login(data: { email: string, password: string }) : Observable<ApiResponse<TokenResponse>> {
-    return this.http.post<TokenResponse>(`${environment.apiUrl}/api/auth/login`, data, { observe: 'response' })
+    return this.http.post<ApiResponse<TokenResponse>>(`${environment.apiUrl}/api/auth/login`, data, { observe: 'response' })
       .pipe(
         tap(response => {
           if (response instanceof HttpResponse) {
             this.setTokens(response);
           }
         }),
-        catchError((error) => {
-          if (error.status == 400) {
-            return of({ isSucceeded: false, message: 'Wrong data', data: undefined });
-          } else if (error.status == 404) {
-            return of({ isSucceeded: false, message: 'User does not exist', data: undefined });
-          } else if (error.status == 500) {
-            return of({ isSucceeded: false, message: 'Server error', data: undefined });
-          }
-          return of({ isSucceeded: false, message: 'Unknown error', data: undefined });
-        }),
         map(response => {
-          if (response instanceof HttpResponse) {
-            return { isSucceeded: true, message: 'Success', data: response.body ?? undefined };
-          } else {
-            return response;
-          }
+          return response.body!;
         })
       );
   }
@@ -81,28 +49,15 @@ export class AuthService {
   refreshAccessToken(): Observable<ApiResponse<TokenResponse>> {
     const refreshToken = this.getRefreshToken();
 
-    return this.http.get<TokenResponse>(`${environment.apiUrl}/api/auth/refresh?token=${refreshToken}`, { observe: 'response' })
+    return this.http.get<ApiResponse<TokenResponse>>(`${environment.apiUrl}/api/auth/refresh?token=${refreshToken}`, { observe: 'response' })
       .pipe(
         tap(response => {
           if (response instanceof HttpResponse) {
             this.setTokens(response);
           }
         }),
-        catchError(error => {
-          if (error.status == 400) {
-            this.logOut();
-            return of({ isSucceeded: false, message: 'Wrong data', data: undefined });
-          } else if (error.status == 500) {
-            return of({ isSucceeded: false, message: 'Server error', data: undefined });
-          }
-          return of({ isSucceeded: false, message: 'Unknown error', data: undefined });
-        }),
         map(response => {
-          if (response instanceof HttpResponse) {
-            return { isSucceeded: true, message: 'Success', data: response.body ?? undefined };
-          } else {
-            return response;
-          }
+          return response.body!;
         }));
   }
 
@@ -174,9 +129,9 @@ export class AuthService {
     return jwtDecode<any>(token);
   }
 
-  private setTokens(response: HttpResponse<TokenResponse>) {
-    localStorage.setItem(this.accessTokenKey, response.body?.accessToken!);
-    localStorage.setItem(this.refreshTokenKey, response.body?.refreshToken!);
+  private setTokens(response: HttpResponse<ApiResponse<TokenResponse>>) {
+    localStorage.setItem(this.accessTokenKey, response.body?.data?.accessToken!);
+    localStorage.setItem(this.refreshTokenKey, response.body?.data?.refreshToken!);
 
     this.isLoggedInSubject.next(true);
   }

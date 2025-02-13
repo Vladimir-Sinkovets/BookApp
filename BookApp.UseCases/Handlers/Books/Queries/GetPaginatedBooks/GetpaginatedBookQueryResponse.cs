@@ -3,6 +3,6 @@
     public class GetpaginatedBookQueryResponse
     {
         public int LastPage { get; set; }
-        public IEnumerable<BookDataResponse> Items { get; set; }
+        public IEnumerable<BookDataResponse> Books { get; set; }
     }
 }

@@ -12,17 +12,7 @@ export class UsersApiService {
   constructor(private http: HttpClient) { }
 
   getPaginatedUsers(page: number, usersPerPage: number): Observable<ApiResponse<{ users: User[], lastPage: number }>> {
-    return this.http.get<{ items: User[], lastPage: number }>(`${environment.apiUrl}/api/user/all?page=${page}&itemsPerPage=${usersPerPage}`)
-      .pipe(
-        map(response => {
-          return {
-            isSucceeded: true,
-            message: 'Success',
-            data: {
-              users: response.items,
-              lastPage: response.lastPage,
-            },
-          };
-        }));
+    return this.http.get<ApiResponse<{ users: User[], lastPage: number }>>
+      (`${environment.apiUrl}/api/user/all?page=${page}&itemsPerPage=${usersPerPage}`);
   }
 }

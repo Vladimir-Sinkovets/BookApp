@@ -24,7 +24,7 @@ namespace BookApp.UseCases.Handlers.Users.Queries.GetPaginatedUsers
                 "Success",
                 new()
                 {
-                    Items = users,
+                    Users = users,
                     LastPage = (int)Math.Ceiling(usersCount / (decimal)request.ItemsPerPage),
                 });
         }

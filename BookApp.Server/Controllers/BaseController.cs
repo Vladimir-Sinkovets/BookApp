@@ -10,11 +10,11 @@ namespace BookApp.Server.Controllers
             return result.Status switch
             {
                 Status.Success => Ok(result),
-                Status.NotFound => NotFound(new { result.Status, result.Message }),
-                Status.Conflict => Conflict(new { result.Status, result.Message }),
-                Status.BadData => BadRequest(new { result.Status, result.Message }),
-                Status.ServerError => StatusCode(500, new { result.Status, result.Message }),
-                _ => StatusCode(500, new { result.Status, result.Message }),
+                Status.NotFound => NotFound(result),
+                Status.Conflict => Conflict(result),
+                Status.BadData => BadRequest(result),
+                Status.ServerError => StatusCode(500, result),
+                _ => StatusCode(500, result),
             };
         }
     }

@@ -27,7 +27,7 @@ namespace BookApp.UseCases.Handlers.Books.Queries.GetPaginatedBooks
                 "Success",
                 new()
                 {
-                    Items = books,
+                    Books = books,
                     LastPage = (int)Math.Ceiling(booksCount / (decimal)request.ItemsPerPage),
                 });
         }
