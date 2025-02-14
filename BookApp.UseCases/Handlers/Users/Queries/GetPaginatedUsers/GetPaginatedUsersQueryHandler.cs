@@ -24,7 +24,7 @@ namespace BookApp.UseCases.Handlers.Users.Queries.GetPaginatedUsers
                     Name = x.Name,
                 });
 
-            logger.LogInformation("List of users returned");
+            logger.LogInformation("List of users obtained from the database");
 
             return Result<GetPaginatedUsersQueryResponse>.Create(
                 Status.Success,

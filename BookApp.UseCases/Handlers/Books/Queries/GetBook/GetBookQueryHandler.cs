@@ -24,7 +24,7 @@ namespace BookApp.UseCases.Handlers.Books.Queries.GetBook
                 return Result<GetBookQueryResponse>.Create(Status.NotFound, "Book not found");
             }
 
-            logger.LogInformation("Return book with id: {id}", request.Id);
+            logger.LogInformation("Book obtained from the database with id: {id}", request.Id);
 
             return Result<GetBookQueryResponse>.Create(
                 Status.Success,

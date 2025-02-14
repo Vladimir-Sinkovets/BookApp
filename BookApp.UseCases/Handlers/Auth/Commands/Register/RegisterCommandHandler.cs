@@ -15,7 +15,7 @@ namespace BookApp.UseCases.Handlers.Auth.Commands.Register
     {
         public async Task<Result<RegisterCommandResponse>> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
-            logger.LogInformation("Registrating user with email {email}", request.Email);
+            logger.LogInformation("Attempting to register user with email {email}", request.Email);
 
             if (unitOfWork.UsersRepository.FirstOrDefault(u => u.Email == request.Email) != null)
             {

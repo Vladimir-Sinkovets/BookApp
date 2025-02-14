@@ -27,7 +27,9 @@ namespace BookApp.UseCases.Handlers.Books.Queries.GetPaginatedBooks
                     Tags = b.Tags.Select(bookEntry => bookEntry.Name).ToList()
                 });
 
-            return Result < GetpaginatedBookQueryResponse >.Create(
+            logger.LogInformation("List of books obtained from the database");
+
+            return Result<GetpaginatedBookQueryResponse>.Create(
                 Status.Success,
                 "Success",
                 new()

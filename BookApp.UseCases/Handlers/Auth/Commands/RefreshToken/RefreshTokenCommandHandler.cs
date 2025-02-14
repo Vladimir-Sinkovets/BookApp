@@ -13,7 +13,7 @@ namespace BookApp.UseCases.Handlers.Auth.Commands.RefreshToken
     {
         public async Task<Result<RefreshTokenCommandResponse>> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
         {
-            logger.LogInformation("Refresh token request");
+            logger.LogInformation("Attempting to refresh token");
 
             var principal = tokenService.ValidateRefreshToken(request.Token);
 

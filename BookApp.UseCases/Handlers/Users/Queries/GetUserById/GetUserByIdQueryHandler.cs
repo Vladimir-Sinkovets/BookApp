@@ -21,7 +21,7 @@ namespace BookApp.UseCases.Handlers.Users.Queries.GetUserById
                 return Result<GetUserByIdQueryResponse>.Create(Status.NotFound, "User not found");
             }
 
-            logger.LogInformation("User returned with id: {id}", request.Id);
+            logger.LogInformation("User obtained from the database with id: {id}", request.Id);
 
             return Result<GetUserByIdQueryResponse>.Create(
                 Status.Success,
